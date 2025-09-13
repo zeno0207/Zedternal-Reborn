@@ -683,60 +683,60 @@ simulated function ResetSkillUpgrade(int index)
 
 simulated function byte GetWeaponUpgrade(int index)
 {
-	local int div, indexOffset;
+	local int div, normalized;
 
 	div = index / 255;
-	indexOffset = div * 255;
+	normalized = index - div * 255;
 
 	switch (div)
 	{
 		case 0:
-			return bWeaponUpgrade_1[index - indexOffset];
+			return bWeaponUpgrade_1[normalized];
 
 		case 1:
-			return bWeaponUpgrade_2[index - indexOffset];
+			return bWeaponUpgrade_2[normalized];
 
 		case 2:
-			return bWeaponUpgrade_3[index - indexOffset];
+			return bWeaponUpgrade_3[normalized];
 
 		case 3:
-			return bWeaponUpgrade_4[index - indexOffset];
+			return bWeaponUpgrade_4[normalized];
 
 		case 4:
-			return bWeaponUpgrade_5[index - indexOffset];
+			return bWeaponUpgrade_5[normalized];
 
 		case 5:
-			return bWeaponUpgrade_6[index - indexOffset];
+			return bWeaponUpgrade_6[normalized];
 
 		case 6:
-			return bWeaponUpgrade_7[index - indexOffset];
+			return bWeaponUpgrade_7[normalized];
 
 		case 7:
-			return bWeaponUpgrade_8[index - indexOffset];
+			return bWeaponUpgrade_8[normalized];
 
 		case 8:
-			return bWeaponUpgrade_9[index - indexOffset];
+			return bWeaponUpgrade_9[normalized];
 
 		case 9:
-			return bWeaponUpgrade_10[index - indexOffset];
+			return bWeaponUpgrade_10[normalized];
 
 		case 10:
-			return bWeaponUpgrade_11[index - indexOffset];
+			return bWeaponUpgrade_11[normalized];
 
 		case 11:
-			return bWeaponUpgrade_12[index - indexOffset];
+			return bWeaponUpgrade_12[normalized];
 
 		case 12:
-			return bWeaponUpgrade_13[index - indexOffset];
+			return bWeaponUpgrade_13[normalized];
 
 		case 13:
-			return bWeaponUpgrade_14[index - indexOffset];
+			return bWeaponUpgrade_14[normalized];
 
 		case 14:
-			return bWeaponUpgrade_15[index - indexOffset];
+			return bWeaponUpgrade_15[normalized];
 
 		case 15:
-			return bWeaponUpgrade_16[index - indexOffset];
+			return bWeaponUpgrade_16[normalized];
 
 		default:
 			return 0;
@@ -745,75 +745,75 @@ simulated function byte GetWeaponUpgrade(int index)
 
 simulated function IncermentWeaponUpgrade(int index)
 {
-	local int div, indexOffset;
+	local int div, normalized;
 
 	div = index / 255;
-	indexOffset = div * 255;
+	normalized = index - div * 255;
 
 	switch (div)
 	{
 		case 0:
-			++bWeaponUpgrade_1[index - indexOffset];
+			++bWeaponUpgrade_1[normalized];
 			break;
 
 		case 1:
-			++bWeaponUpgrade_2[index - indexOffset];
+			++bWeaponUpgrade_2[normalized];
 			break;
 
 		case 2:
-			++bWeaponUpgrade_3[index - indexOffset];
+			++bWeaponUpgrade_3[normalized];
 			break;
 
 		case 3:
-			++bWeaponUpgrade_4[index - indexOffset];
+			++bWeaponUpgrade_4[normalized];
 			break;
 
 		case 4:
-			++bWeaponUpgrade_5[index - indexOffset];
+			++bWeaponUpgrade_5[normalized];
 			break;
 
 		case 5:
-			++bWeaponUpgrade_6[index - indexOffset];
+			++bWeaponUpgrade_6[normalized];
 			break;
 
 		case 6:
-			++bWeaponUpgrade_7[index - indexOffset];
+			++bWeaponUpgrade_7[normalized];
 			break;
 
 		case 7:
-			++bWeaponUpgrade_8[index - indexOffset];
+			++bWeaponUpgrade_8[normalized];
 			break;
 
 		case 8:
-			++bWeaponUpgrade_9[index - indexOffset];
+			++bWeaponUpgrade_9[normalized];
 			break;
 
 		case 9:
-			++bWeaponUpgrade_10[index - indexOffset];
+			++bWeaponUpgrade_10[normalized];
 			break;
 
 		case 10:
-			++bWeaponUpgrade_11[index - indexOffset];
+			++bWeaponUpgrade_11[normalized];
 			break;
 
 		case 11:
-			++bWeaponUpgrade_12[index - indexOffset];
+			++bWeaponUpgrade_12[normalized];
 			break;
 
 		case 12:
-			++bWeaponUpgrade_13[index - indexOffset];
+			++bWeaponUpgrade_13[normalized];
 			break;
 
 		case 13:
-			++bWeaponUpgrade_14[index - indexOffset];
+			++bWeaponUpgrade_14[normalized];
 			break;
 
 		case 14:
-			++bWeaponUpgrade_15[index - indexOffset];
+			++bWeaponUpgrade_15[normalized];
 			break;
 
 		case 15:
-			++bWeaponUpgrade_16[index - indexOffset];
+			++bWeaponUpgrade_16[normalized];
 			break;
 
 		default:
@@ -823,75 +823,75 @@ simulated function IncermentWeaponUpgrade(int index)
 
 simulated function SetWeaponUpgrade(int index, int value)
 {
-	local int div, indexOffset;
+	local int div, normalized;
 
 	div = index / 255;
-	indexOffset = div * 255;
+	normalized = index - div * 255;
 
 	switch (div)
 	{
 		case 0:
-			bWeaponUpgrade_1[index - indexOffset] = value;
+			bWeaponUpgrade_1[normalized] = value;
 			break;
 
 		case 1:
-			bWeaponUpgrade_2[index - indexOffset] = value;
+			bWeaponUpgrade_2[normalized] = value;
 			break;
 
 		case 2:
-			bWeaponUpgrade_3[index - indexOffset] = value;
+			bWeaponUpgrade_3[normalized] = value;
 			break;
 
 		case 3:
-			bWeaponUpgrade_4[index - indexOffset] = value;
+			bWeaponUpgrade_4[normalized] = value;
 			break;
 
 		case 4:
-			bWeaponUpgrade_5[index - indexOffset] = value;
+			bWeaponUpgrade_5[normalized] = value;
 			break;
 
 		case 5:
-			bWeaponUpgrade_6[index - indexOffset] = value;
+			bWeaponUpgrade_6[normalized] = value;
 			break;
 
 		case 6:
-			bWeaponUpgrade_7[index - indexOffset] = value;
+			bWeaponUpgrade_7[normalized] = value;
 			break;
 
 		case 7:
-			bWeaponUpgrade_8[index - indexOffset] = value;
+			bWeaponUpgrade_8[normalized] = value;
 			break;
 
 		case 8:
-			bWeaponUpgrade_9[index - indexOffset] = value;
+			bWeaponUpgrade_9[normalized] = value;
 			break;
 
 		case 9:
-			bWeaponUpgrade_10[index - indexOffset] = value;
+			bWeaponUpgrade_10[normalized] = value;
 			break;
 
 		case 10:
-			bWeaponUpgrade_11[index - indexOffset] = value;
+			bWeaponUpgrade_11[normalized] = value;
 			break;
 
 		case 11:
-			bWeaponUpgrade_12[index - indexOffset] = value;
+			bWeaponUpgrade_12[normalized] = value;
 			break;
 
 		case 12:
-			bWeaponUpgrade_13[index - indexOffset] = value;
+			bWeaponUpgrade_13[normalized] = value;
 			break;
 
 		case 13:
-			bWeaponUpgrade_14[index - indexOffset] = value;
+			bWeaponUpgrade_14[normalized] = value;
 			break;
 
 		case 14:
-			bWeaponUpgrade_15[index - indexOffset] = value;
+			bWeaponUpgrade_15[normalized] = value;
 			break;
 
 		case 15:
-			bWeaponUpgrade_16[index - indexOffset] = value;
+			bWeaponUpgrade_16[normalized] = value;
 			break;
 
 		default:
