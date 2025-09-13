@@ -1351,7 +1351,7 @@ function KFPickupFactory DetermineNextPickup(array<KFPickupFactory> PickupList, 
 //Objective Code Start
 function SetupObjectiveZones()
 {
-	local byte b;
+	local int i;
 	local WMMapObjective_DoshHold NewObjective;
 	local KFMapObjective_DoshHold OldObjective;
 	local array<KFMapObjective_DoshHold> OldObjectiveZones;
@@ -1368,7 +1368,7 @@ function SetupObjectiveZones()
 	}
 
 	//Create new objectives
-	for (b = 0; b < OldObjectiveZones.Length; ++b)
+	for (i = 0; i < OldObjectiveZones.Length; ++i)
 	{
 		NewObjective = Spawn(class'WMMapObjective_DoshHold');
 		if (NewObjective != None)
@@ -1378,13 +1378,13 @@ function SetupObjectiveZones()
 			NewObjective.PctOfWaveZedsKilledForMaxRewardZedternal = class'ZedternalReborn.Config_Objective'.static.GetPctOfWaveKilledForMaxReward(GameDifficultyZedternal);
 			NewObjective.DoshScalarIncPerWaveZedternal = class'ZedternalReborn.Config_Objective'.static.GetDoshIncreaseModifierPerWave(GameDifficultyZedternal);
 
-			NewObjective.Parent = OldObjectiveZones[b];
-			NewObjective.ParentName = OldObjectiveZones[b].Name;
+			NewObjective.Parent = OldObjectiveZones[i];
+			NewObjective.ParentName = OldObjectiveZones[i].Name;
 			NewObjectiveZones.AddItem(NewObjective);
 		}
 		else
 		{
-			`log("ZR Warning: Failed to override objective"@OldObjectiveZones[b].Name@"due to failure to spawn in new objective actor");
+			`log("ZR Warning: Failed to override objective"@OldObjectiveZones[i].Name@"due to failure to spawn in new objective actor");
 		}
 	}
 
