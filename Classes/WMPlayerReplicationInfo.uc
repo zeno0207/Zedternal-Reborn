@@ -2,6 +2,18 @@ class WMPlayerReplicationInfo extends KFPlayerReplicationInfo;
 
 
 // Structs for better organization
+struct PerkPurchaseStruct
+{
+	var byte level;
+	var bool bUnlocked;
+
+	structdefaultproperties
+	{
+		level=0
+		bUnlocked=False
+	}
+};
+
 struct SkillPurchaseStruct
 {
 	var bool bPurchased;
@@ -17,8 +29,7 @@ struct SkillPurchaseStruct
 };
 
 //Replicated arrays
-var repnotify byte bPerkUpgrade[255];
-var byte bPerkUpgradeAvailable[255];
+var repnotify PerkPurchaseStruct bPerkUpgrade[255];
 var repnotify byte bWeaponUpgrade_1[255];
 var repnotify byte bWeaponUpgrade_2[255];
 var repnotify byte bWeaponUpgrade_3[255];
@@ -92,7 +103,6 @@ replication
 	if (bNetDirty && (Role == Role_Authority))
 		bEquipmentUpgrade,
 		bPerkUpgrade,
-		bPerkUpgradeAvailable,
 		bSidearmItem,
 		bSkillUpgrade_1,
 		bSkillUpgrade_2,
@@ -188,7 +198,6 @@ function CopyProperties(PlayerReplicationInfo PRI)
 		for (i = 0; i < 255; ++i)
 		{
 			WMPRI.bPerkUpgrade[i] = bPerkUpgrade[i];
-			WMPRI.bPerkUpgradeAvailable[i] = bPerkUpgradeAvailable[i];
 			WMPRI.bWeaponUpgrade_1[i] = bWeaponUpgrade_1[i];
 			WMPRI.bWeaponUpgrade_2[i] = bWeaponUpgrade_2[i];
 			WMPRI.bWeaponUpgrade_3[i] = bWeaponUpgrade_3[i];
@@ -266,7 +275,7 @@ simulated function ClientUpdateCurrentIconToDisplay()
 	WMGRI = WMGameReplicationInfo(WorldInfo.GRI);
 
 	if (WMGRI != None && PerkIconIndex != INDEX_NONE)
-		CurrentIconToDisplay = WMGRI.PerkUpgradesList[PerkIconIndex].PerkUpgrade.static.GetUpgradeIcon(bPerkUpgrade[PerkIconIndex] - 1);
+		CurrentIconToDisplay = WMGRI.PerkUpgradesList[PerkIconIndex].PerkUpgrade.static.GetUpgradeIcon(bPerkUpgrade[PerkIconIndex].level - 1);
 }
 
 function UpdateCurrentIconToDisplay(int lastBoughtIndex, int doshSpent, int lvl)
@@ -298,7 +307,7 @@ function UpdateCurrentIconToDisplay(int lastBoughtIndex, int doshSpent, int lvl)
 		// check and update player's perk icon index
 		if (PerkIconIndex == INDEX_NONE || DoshSpentOnPerk[lastBoughtIndex] >= MaxDoshSpent)
 		{
-			CurrentIconToDisplay = WMGRI.PerkUpgradesList[lastBoughtIndex].PerkUpgrade.static.GetUpgradeIcon(bPerkUpgrade[lastBoughtIndex] - 1);
+			CurrentIconToDisplay = WMGRI.PerkUpgradesList[lastBoughtIndex].PerkUpgrade.static.GetUpgradeIcon(bPerkUpgrade[lastBoughtIndex].level - 1);
 			MaxDoshSpent = DoshSpentOnPerk[lastBoughtIndex];
 			PerkIconIndex = lastBoughtIndex;
 		}
@@ -326,7 +335,7 @@ simulated function UpdatePurchase()
 	Purchase_PerkUpgrade.length = 0;
 	for (i = 0; i < 255; ++i)
 	{
-		if (bPerkUpgrade[i] > 0)
+		if (bPerkUpgrade[i].level > 0)
 			Purchase_PerkUpgrade.AddItem(i);
 	}
 
@@ -366,7 +375,7 @@ function RecalculatePlayerLevel()
 
 		foreach Purchase_PerkUpgrade(index)
 		{
-			for (level = 0; level < bPerkUpgrade[index]; ++level)
+			for (level = 0; level < bPerkUpgrade[index].level; ++level)
 			{
 				UpdateCurrentIconToDisplay(index, WMGRI.PerkUpgPrice[level], 1);
 			}

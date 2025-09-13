@@ -749,13 +749,13 @@ function RepPlayerInfo(WMPlayerReplicationInfo WMPRI)
 			// check if the perk i should be in the trader (static perk)
 			if (StaticPerks[i] == 1)
 			{
-				WMPRI.bPerkUpgradeAvailable[i] = 1;
+				WMPRI.bPerkUpgrade[i].bUnlocked = True;
 				++Count;
 			}
 			else
 			{
 				PerkIndex.AddItem(i);
-				WMPRI.bPerkUpgradeAvailable[i] = 0;
+				WMPRI.bPerkUpgrade[i].bUnlocked = False;
 			}
 
 			if (Count > class'ZedternalReborn.Config_PerkUpgradeOptions'.default.PerkUpgrade_AvailablePerks)
@@ -769,7 +769,7 @@ function RepPlayerInfo(WMPlayerReplicationInfo WMPRI)
 			if (PerkIndex.Length > 0)
 			{
 				Choice = Rand(PerkIndex.Length);
-				WMPRI.bPerkUpgradeAvailable[PerkIndex[Choice]] = 1;
+				WMPRI.bPerkUpgrade[PerkIndex[Choice]].bUnlocked = True;
 				PerkIndex.Remove(Choice, 1);
 			}
 		}

@@ -56,9 +56,9 @@ reliable server function BuyPerkUpgrade(int ItemDefinition, int Cost)
 
 	WMPRI = WMPlayerReplicationInfo(Pawn.PlayerReplicationInfo);
 
-	if (WMPRI != None && WMPRI.Score >= Cost && WMPRI.bPerkUpgrade[ItemDefinition] < WMGameReplicationInfo(WorldInfo.GRI).PerkUpgMaxLevel)
+	if (WMPRI != None && WMPRI.Score >= Cost && WMPRI.bPerkUpgrade[ItemDefinition].level < WMGameReplicationInfo(WorldInfo.GRI).PerkUpgMaxLevel)
 	{
-		++WMPRI.bPerkUpgrade[ItemDefinition];
+		++WMPRI.bPerkUpgrade[ItemDefinition].level;
 		if (WMPRI.Purchase_PerkUpgrade.Find(ItemDefinition) == INDEX_NONE)
 			WMPRI.Purchase_PerkUpgrade.AddItem(ItemDefinition);
 
@@ -514,8 +514,8 @@ simulated function string GetPerkIconPath()
 			if (HUD_perkIndex >= WMGRI.PerkUpgradesList.Length)
 				HUD_perkIndex = 0;
 
-			if (WMPRI.bPerkUpgrade[HUD_perkIndex] > 0)
-				return PathName(WMGRI.PerkUpgradesList[HUD_perkIndex].PerkUpgrade.static.GetUpgradeIcon(WMPRI.bPerkUpgrade[HUD_perkIndex] - 1));
+			if (WMPRI.bPerkUpgrade[HUD_perkIndex].level > 0)
+				return PathName(WMGRI.PerkUpgradesList[HUD_perkIndex].PerkUpgrade.static.GetUpgradeIcon(WMPRI.bPerkUpgrade[HUD_perkIndex].level - 1));
 		}
 	}
 

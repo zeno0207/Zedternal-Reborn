@@ -165,7 +165,7 @@ function Callback_Equip(int ItemDefinition)
 	if (CurrentFilterIndex == 0) //Perk Upgrades
 	{
 		Index = PerkUPGIndex[Index];
-		lvl = WMPRI.bPerkUpgrade[Index];
+		lvl = WMPRI.bPerkUpgrade[Index].level;
 		UPGPrice = WMGRI.PerkUpgPrice[lvl];
 
 		if (WMPRI.Score >= UPGPrice)
@@ -175,7 +175,7 @@ function Callback_Equip(int ItemDefinition)
 				WMPRI.SyncCompleted = False;
 			WMPC.BuyPerkUpgrade(Index, UPGPrice);
 			if (WMPC.WorldInfo.NetMode != NM_Standalone)
-				WMPRI.bPerkUpgrade[Index] = lvl + 1;
+				WMPRI.bPerkUpgrade[Index].level = lvl + 1;
 			WMPRI.Score = OriginalDosh - UPGPrice;
 			if (WMPRI.Purchase_PerkUpgrade.Find(Index) == INDEX_NONE)
 				WMPRI.Purchase_PerkUpgrade.AddItem(Index);
@@ -394,7 +394,7 @@ function CallBack_ItemDetailsClicked(int ItemDefinition)
 	if (CurrentFilterIndex == 0) //Perk Upgrades
 	{
 		Index = PerkUPGIndex[Index];
-		lvl = WMPRI.bPerkUpgrade[Index];
+		lvl = WMPRI.bPerkUpgrade[Index].level;
 		price = WMGRI.PerkUpgPrice[lvl];
 
 		EquipButton.SetString("label", ""$price$Chr(163));
@@ -568,9 +568,9 @@ function BuildPerkUpgradeList(out GFxObject ItemArray)
 
 	for (i = 0; i < WMGRI.PerkUpgradesList.Length; ++i)
 	{
-		if (WMPRI.bPerkUpgradeAvailable[i] > 0)
+		if (WMPRI.bPerkUpgrade[i].bUnlocked)
 		{
-			lvl = WMPRI.bPerkUpgrade[i];
+			lvl = WMPRI.bPerkUpgrade[i].level;
 
 			// Get Max Level of that upgrade
 			MaxLevel = WMGRI.PerkUpgMaxLevel;
@@ -1222,7 +1222,7 @@ function SkillRerollUnlock(int PerkIndex)
 	{
 		RerollPerkPathName = PathName(WMGRI.PerkUpgradesList[PerkIndex].PerkUpgrade);
 
-		for (i = 0; i < WMPRI.bPerkUpgrade[PerkIndex]; ++i)
+		for (i = 0; i < WMPRI.bPerkUpgrade[PerkIndex].level; ++i)
 		{
 			UnlockRandomSkill(RerollPerkPathName, WMGRI.bDeluxeSkillUnlock[i] == 1);
 		}
