@@ -14,7 +14,7 @@ var byte startingMaxPlayerCount, TraderVoiceIndex;
 var float GameDifficultyZedternal;
 
 //Perks
-var array<byte> StaticPerks;
+var array<bool> StaticPerks;
 
 //Weapons
 var array<string> KFWeaponDefPath, StartingWeaponPath;
@@ -387,9 +387,9 @@ function InitializeStaticPerkList()
 	for (i = 0; i < Min(255, ConfigData.ValidPerkUpgrades.Length); ++i)
 	{
 		if (ConfigData.ValidPerkUpgrades[i].bIsStatic)
-			StaticPerks.AddItem(1);
+			StaticPerks.AddItem(True);
 		else
-			StaticPerks.AddItem(0);
+			StaticPerks.AddItem(False);
 	}
 }
 //Initialization/Cleanup Code End
@@ -747,7 +747,7 @@ function RepPlayerInfo(WMPlayerReplicationInfo WMPRI)
 		for (i = 0; i < StaticPerks.Length; ++i)
 		{
 			// check if the perk i should be in the trader (static perk)
-			if (StaticPerks[i] == 1)
+			if (StaticPerks[i])
 			{
 				WMPRI.bPerkUpgrade[i].bUnlocked = True;
 				++Count;
