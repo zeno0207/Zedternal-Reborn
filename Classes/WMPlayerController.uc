@@ -294,7 +294,7 @@ simulated function CheckPreferredSidearm()
 {
 	local WMGameReplicationInfo WMGRI;
 	local WMPlayerReplicationInfo WMPRI;
-	local byte i;
+	local int i;
 	local bool bFound;
 	local string SidearmPath;
 
@@ -312,7 +312,7 @@ simulated function CheckPreferredSidearm()
 
 		SidearmPath = class'ZedternalReborn.Config_LocalPreferences'.static.GetSidearmPath();
 		bFound = False;
-		for (i = 0; i < 255; ++i)
+		for (i = 0; i < 256; ++i)
 		{
 			if (WMGRI.SidearmsRepArray[i].WeaponPathName ~= "")
 				break;
@@ -371,7 +371,7 @@ reliable client function SetPreferredGrenadeTimer()
 simulated function CheckPreferredGrenade()
 {
 	local WMGameReplicationInfo WMGRI;
-	local byte i;
+	local int i;
 	local bool bFound;
 	local string GrenadePath;
 
@@ -382,7 +382,7 @@ simulated function CheckPreferredGrenade()
 
 		GrenadePath = class'ZedternalReborn.Config_LocalPreferences'.static.GetGrenadePath();
 		bFound = False;
-		for (i = 0; i < 255; ++i)
+		for (i = 0; i < 256; ++i)
 		{
 			if (WMGRI.GrenadesRepArray[i].GrenadePathName ~= "")
 				break;

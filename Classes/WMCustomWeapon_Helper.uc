@@ -21,11 +21,11 @@ static function UpdateSkinsStandalone(const out array<string> WeaponDefs)
 }
 
 //For clients
-static function UpdateSkinsClient(const out string WeaponDefs[255])
+static function UpdateSkinsClient(const out string WeaponDefs[256])
 {
-	local byte i;
+	local int i;
 
-	for (i = 0; i < 255; ++i)
+	for (i = 0; i < 256; ++i)
 	{
 		if (WeaponDefs[i] == "")
 			return;

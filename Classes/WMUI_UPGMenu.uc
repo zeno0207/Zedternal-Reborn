@@ -818,12 +818,12 @@ function BuildSkillUpgradeList(out GFxObject ItemArray)
 function int GetPerkRelatedIndex(int SkillIndex)
 {
 	//return Skill perk related index
-	local byte b;
+	local int i;
 
-	for (b = 0; b < WMGRI.PerkUpgradesList.Length; ++b)
+	for (i = 0; i < WMGRI.PerkUpgradesList.Length; ++i)
 	{
-		if (PathName(WMGRI.PerkUpgradesList[b].PerkUpgrade) ~= WMGRI.SkillUpgradesList[SkillIndex].PerkPathName)
-			return b;
+		if (PathName(WMGRI.PerkUpgradesList[i].PerkUpgrade) ~= WMGRI.SkillUpgradesList[SkillIndex].PerkPathName)
+			return i;
 	}
 
 	return 0;

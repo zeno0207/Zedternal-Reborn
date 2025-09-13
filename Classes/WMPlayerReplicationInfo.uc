@@ -29,29 +29,29 @@ struct SkillPurchaseStruct
 };
 
 //Replicated arrays
-var repnotify PerkPurchaseStruct bPerkUpgrade[255];
-var repnotify byte bWeaponUpgrade_1[255];
-var repnotify byte bWeaponUpgrade_2[255];
-var repnotify byte bWeaponUpgrade_3[255];
-var repnotify byte bWeaponUpgrade_4[255];
-var repnotify byte bWeaponUpgrade_5[255];
-var repnotify byte bWeaponUpgrade_6[255];
-var repnotify byte bWeaponUpgrade_7[255];
-var repnotify byte bWeaponUpgrade_8[255];
-var repnotify byte bWeaponUpgrade_9[255];
-var repnotify byte bWeaponUpgrade_10[255];
-var repnotify byte bWeaponUpgrade_11[255];
-var repnotify byte bWeaponUpgrade_12[255];
-var repnotify byte bWeaponUpgrade_13[255];
-var repnotify byte bWeaponUpgrade_14[255];
-var repnotify byte bWeaponUpgrade_15[255];
-var repnotify byte bWeaponUpgrade_16[255];
-var repnotify SkillPurchaseStruct bSkillUpgrade_1[255];
-var repnotify SkillPurchaseStruct bSkillUpgrade_2[255];
-var repnotify SkillPurchaseStruct bSkillUpgrade_3[255];
-var repnotify SkillPurchaseStruct bSkillUpgrade_4[255];
-var repnotify byte bEquipmentUpgrade[255];
-var byte bSidearmItem[255];
+var repnotify PerkPurchaseStruct bPerkUpgrade[256];
+var repnotify byte bWeaponUpgrade_1[256];
+var repnotify byte bWeaponUpgrade_2[256];
+var repnotify byte bWeaponUpgrade_3[256];
+var repnotify byte bWeaponUpgrade_4[256];
+var repnotify byte bWeaponUpgrade_5[256];
+var repnotify byte bWeaponUpgrade_6[256];
+var repnotify byte bWeaponUpgrade_7[256];
+var repnotify byte bWeaponUpgrade_8[256];
+var repnotify byte bWeaponUpgrade_9[256];
+var repnotify byte bWeaponUpgrade_10[256];
+var repnotify byte bWeaponUpgrade_11[256];
+var repnotify byte bWeaponUpgrade_12[256];
+var repnotify byte bWeaponUpgrade_13[256];
+var repnotify byte bWeaponUpgrade_14[256];
+var repnotify byte bWeaponUpgrade_15[256];
+var repnotify byte bWeaponUpgrade_16[256];
+var repnotify SkillPurchaseStruct bSkillUpgrade_1[256];
+var repnotify SkillPurchaseStruct bSkillUpgrade_2[256];
+var repnotify SkillPurchaseStruct bSkillUpgrade_3[256];
+var repnotify SkillPurchaseStruct bSkillUpgrade_4[256];
+var repnotify byte bEquipmentUpgrade[256];
+var byte bSidearmItem[256];
 
 // Current "perk" : perk's icon reflects where player spend his dosh (perk upgrades and skill upgrades)
 var repnotify int PerkIconIndex;
@@ -189,13 +189,13 @@ simulated event ReplicatedEvent(name VarName)
 function CopyProperties(PlayerReplicationInfo PRI)
 {
 	local WMPlayerReplicationInfo WMPRI;
-	local byte i;
+	local int i;
 
 	WMPRI = WMPlayerReplicationInfo(PRI);
 
 	if (WMPRI != None)
 	{
-		for (i = 0; i < 255; ++i)
+		for (i = 0; i < 256; ++i)
 		{
 			WMPRI.bPerkUpgrade[i] = bPerkUpgrade[i];
 			WMPRI.bWeaponUpgrade_1[i] = bWeaponUpgrade_1[i];
@@ -285,7 +285,7 @@ function UpdateCurrentIconToDisplay(int lastBoughtIndex, int doshSpent, int lvl)
 	// will also increase player level by one
 
 	local WMGameReplicationInfo WMGRI;
-	local byte i;
+	local int i;
 
 	WMGRI = WMGameReplicationInfo(WorldInfo.GRI);
 
@@ -333,21 +333,21 @@ simulated function UpdatePurchase()
 	local int i;
 
 	Purchase_PerkUpgrade.length = 0;
-	for (i = 0; i < 255; ++i)
+	for (i = 0; i < 256; ++i)
 	{
 		if (bPerkUpgrade[i].level > 0)
 			Purchase_PerkUpgrade.AddItem(i);
 	}
 
 	Purchase_SkillUpgrade.length = 0;
-	for (i = 0; i < 1020; ++i)
+	for (i = 0; i < 1024; ++i)
 	{
 		if (GetSkillUpgrade(i) > 0)
 			Purchase_SkillUpgrade.AddItem(i);
 	}
 
 	Purchase_EquipmentUpgrade.length = 0;
-	for (i = 0; i < 255; ++i)
+	for (i = 0; i < 256; ++i)
 	{
 		if (bEquipmentUpgrade[i] > 0)
 			Purchase_EquipmentUpgrade.AddItem(i);
@@ -514,8 +514,8 @@ simulated function byte GetSkillUpgrade(int index)
 {
 	local int div, normalized;
 
-	div = index / 255;
-	normalized = index - div * 255;
+	div = index / 256;
+	normalized = index - div * 256;
 
 	switch (div)
 	{
@@ -540,8 +540,8 @@ simulated function bool IsSkillUnlocked(int index)
 {
 	local int div, normalized;
 
-	div = index / 255;
-	normalized = index - div * 255;
+	div = index / 256;
+	normalized = index - div * 256;
 
 	switch (div)
 	{
@@ -566,8 +566,8 @@ simulated function bool IsSkillDeluxe(int index)
 {
 	local int div, normalized;
 
-	div = index / 255;
-	normalized = index - div * 255;
+	div = index / 256;
+	normalized = index - div * 256;
 
 	switch (div)
 	{
@@ -592,8 +592,8 @@ simulated function UnlockSkillUpgrade(int index, bool bDeluxe)
 {
 	local int div, normalized;
 
-	div = index / 255;
-	normalized = index - div * 255;
+	div = index / 256;
+	normalized = index - div * 256;
 
 	switch (div)
 	{
@@ -626,8 +626,8 @@ simulated function PurchaseSkillUpgrade(int index)
 {
 	local int div, normalized;
 
-	div = index / 255;
-	normalized = index - div * 255;
+	div = index / 256;
+	normalized = index - div * 256;
 
 	switch (div)
 	{
@@ -656,8 +656,8 @@ simulated function ResetSkillUpgrade(int index)
 {
 	local int div, normalized;
 
-	div = index / 255;
-	normalized = index - div * 255;
+	div = index / 256;
+	normalized = index - div * 256;
 
 	switch (div)
 	{
@@ -694,8 +694,8 @@ simulated function byte GetWeaponUpgrade(int index)
 {
 	local int div, normalized;
 
-	div = index / 255;
-	normalized = index - div * 255;
+	div = index / 256;
+	normalized = index - div * 256;
 
 	switch (div)
 	{
@@ -756,8 +756,8 @@ simulated function IncermentWeaponUpgrade(int index)
 {
 	local int div, normalized;
 
-	div = index / 255;
-	normalized = index - div * 255;
+	div = index / 256;
+	normalized = index - div * 256;
 
 	switch (div)
 	{
@@ -834,8 +834,8 @@ simulated function SetWeaponUpgrade(int index, int value)
 {
 	local int div, normalized;
 
-	div = index / 255;
-	normalized = index - div * 255;
+	div = index / 256;
+	normalized = index - div * 256;
 
 	switch (div)
 	{

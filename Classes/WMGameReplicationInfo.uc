@@ -138,25 +138,25 @@ var int NumberOfWeaponUpgradeSlots;
 var int NumberOfZedBuffs;
 
 //Replicated Weapons
-var AllowedWeaponRepStruct AllowedWeaponsRepArray_A[255];
-var AllowedWeaponRepStruct AllowedWeaponsRepArray_B[255];
-var string KFWeaponDefPath_A[255];
-var string KFWeaponDefPath_B[255];
-var WeaponRepStruct StartingWeaponsRepArray[255];
+var AllowedWeaponRepStruct AllowedWeaponsRepArray_A[256];
+var AllowedWeaponRepStruct AllowedWeaponsRepArray_B[256];
+var string KFWeaponDefPath_A[256];
+var string KFWeaponDefPath_B[256];
+var WeaponRepStruct StartingWeaponsRepArray[256];
 
 //Replicated Perk Upgrades
 var int PerkUpgMaxLevel;
-var int PerkUpgPrice[255];
-var PerkUpgradeRepStruct PerkUpgradesRepArray[255];
+var int PerkUpgPrice[256];
+var PerkUpgradeRepStruct PerkUpgradesRepArray[256];
 
 //Replicated Skill Upgrades
-var byte bDeluxeSkillUnlock[255];
+var byte bDeluxeSkillUnlock[256];
 var int SkillUpgDeluxePrice;
 var int SkillUpgPrice;
-var SkillUpgradeRepStruct SkillUpgradesRepArray_A[255];
-var SkillUpgradeRepStruct SkillUpgradesRepArray_B[255];
-var SkillUpgradeRepStruct SkillUpgradesRepArray_C[255];
-var SkillUpgradeRepStruct SkillUpgradesRepArray_D[255];
+var SkillUpgradeRepStruct SkillUpgradesRepArray_A[256];
+var SkillUpgradeRepStruct SkillUpgradesRepArray_B[256];
+var SkillUpgradeRepStruct SkillUpgradesRepArray_C[256];
+var SkillUpgradeRepStruct SkillUpgradesRepArray_D[256];
 
 //Replicated Skill Reroll
 var bool bAllowSkillReroll;
@@ -166,26 +166,26 @@ var float RerollSkillSellPercent;
 
 //Replicated Weapon Upgrades
 var int WeaponUpgNumberUpgradePerWeapon;
-var WeaponUpgradeRepStruct WeaponUpgradesRepArray[255];
+var WeaponUpgradeRepStruct WeaponUpgradesRepArray[256];
 var string WeaponUpgRandSeed;
 
 //Replicated Equipment Upgrades
-var EquipmentUpgradeRepStruct EquipmentUpgradesRepArray[255];
+var EquipmentUpgradeRepStruct EquipmentUpgradesRepArray[256];
 
 //Replicated Sidearms
-var SidearmItemRepStruct SidearmsRepArray[255];
+var SidearmItemRepStruct SidearmsRepArray[256];
 
 //Replicated Grenades
-var GrenadeItemRepStruct GrenadesRepArray[255];
+var GrenadeItemRepStruct GrenadesRepArray[256];
 
 //Replicated Special Waves
 var int SpecialWaveID[2];
-var SpecialWaveRepStruct SpecialWavesRepArray[255];
+var SpecialWaveRepStruct SpecialWavesRepArray[256];
 
 //Replicated Zed Buffs
-var byte ActiveZedBuffs[255];
+var byte ActiveZedBuffs[256];
 var repnotify bool bNewZedBuff;
-var ZedBuffRepStruct ZedBuffsRepArray[255];
+var ZedBuffRepStruct ZedBuffsRepArray[256];
 
 //Replicated Trader Values
 var int ArmorPrice;
@@ -671,9 +671,9 @@ simulated function GenerateDataFromSyncData()
 	}
 }
 
-simulated function SyncAllowedWeapons(const out AllowedWeaponRepStruct AllowedWeaponsRepArray[255], int indexMultiplier)
+simulated function SyncAllowedWeapons(const out AllowedWeaponRepStruct AllowedWeaponsRepArray[256], int indexMultiplier)
 {
-	local int i, indexOffset;
+	local int i, shifted;
 
 	if (NumberOfAllowedWeapons == INDEX_NONE)
 		return;
@@ -683,33 +683,33 @@ simulated function SyncAllowedWeapons(const out AllowedWeaponRepStruct AllowedWe
 
 	if (NumberOfAllowedWeapons > 0)
 	{
-		indexOffset = 255 * indexMultiplier;
-
-		for (i = 0; i < 255; ++i)
+		for (i = 0; i < 256; ++i)
 		{
+			shifted = i + 256 * indexMultiplier;
+
 			if (!AllowedWeaponsRepArray[i].bValid)
 				break; //base case
 
-			if (!AllowedWeaponsList[i + indexOffset].bDone)
+			if (!AllowedWeaponsList[shifted].bDone)
 			{
-				AllowedWeaponsList[i + indexOffset].KFWeaponPath = AllowedWeaponsRepArray[i].WeaponPathName;
-				AllowedWeaponsList[i + indexOffset].WeaponName = name(GetItemName(AllowedWeaponsRepArray[i].WeaponPathName));
-				AllowedWeaponsList[i + indexOffset].BuyPrice = AllowedWeaponsRepArray[i].BuyPrice;
-				AllowedWeaponsList[i + indexOffset].bDone = True;
+				AllowedWeaponsList[shifted].KFWeaponPath = AllowedWeaponsRepArray[i].WeaponPathName;
+				AllowedWeaponsList[shifted].WeaponName = name(GetItemName(AllowedWeaponsRepArray[i].WeaponPathName));
+				AllowedWeaponsList[shifted].BuyPrice = AllowedWeaponsRepArray[i].BuyPrice;
+				AllowedWeaponsList[shifted].bDone = True;
 			}
 		}
 	}
 
-	if (indexMultiplier == 0 && (i == NumberOfAllowedWeapons || i == 255))
+	if (indexMultiplier == 0 && (i == NumberOfAllowedWeapons || i == 256))
 		bAllowedWeaponsSynced_A = True;
 
-	if (indexMultiplier == 1 && ((i + indexOffset) == NumberOfAllowedWeapons || 255 >= NumberOfAllowedWeapons))
+	if (indexMultiplier == 1 && (shifted == NumberOfAllowedWeapons || 256 >= NumberOfAllowedWeapons))
 		bAllowedWeaponsSynced_B = True;
 }
 
-simulated function SyncWeaponTraderItems(const out string KFWeaponDefPath[255], int indexMultiplier)
+simulated function SyncWeaponTraderItems(const out string KFWeaponDefPath[256], int indexMultiplier)
 {
-	local int i, indexOffset;
+	local int i, shifted;
 
 	if (NumberOfTraderWeapons == INDEX_NONE)
 		return;
@@ -722,25 +722,25 @@ simulated function SyncWeaponTraderItems(const out string KFWeaponDefPath[255], 
 
 	if (NumberOfTraderWeapons > 0)
 	{
-		indexOffset = 255 * indexMultiplier;
-
-		for (i = 0; i < 255; ++i)
+		for (i = 0; i < 256; ++i)
 		{
+			shifted = i + 256 * indexMultiplier;
+
 			if (KFWeaponDefPath[i] == "")
 				break; //base case
 
-			if (TraderItems.SaleItems[i + indexOffset].ItemID == INDEX_NONE)
+			if (TraderItems.SaleItems[shifted].ItemID == INDEX_NONE)
 			{
-				TraderItems.SaleItems[i + indexOffset].WeaponDef = class<KFWeaponDefinition>(DynamicLoadObject(KFWeaponDefPath[i], class'Class'));
-				TraderItems.SaleItems[i + indexOffset].ItemID = i + indexOffset;
+				TraderItems.SaleItems[shifted].WeaponDef = class<KFWeaponDefinition>(DynamicLoadObject(KFWeaponDefPath[i], class'Class'));
+				TraderItems.SaleItems[shifted].ItemID = shifted;
 			}
 		}
 	}
 
-	if (indexMultiplier == 0 && (i == NumberOfTraderWeapons || i == 255))
+	if (indexMultiplier == 0 && (i == NumberOfTraderWeapons || i == 256))
 		bTraderWeaponsSynced_A = True;
 
-	if (indexMultiplier == 1 && ((i + indexOffset) == NumberOfTraderWeapons || 255 >= NumberOfTraderWeapons))
+	if (indexMultiplier == 1 && (shifted == NumberOfTraderWeapons || 256 >= NumberOfTraderWeapons))
 		bTraderWeaponsSynced_B = True;
 }
 
@@ -756,7 +756,7 @@ simulated function SyncAllStartingWeapons()
 
 	if (NumberOfStartingWeapons > 0)
 	{
-		for (i = 0; i < 255; ++i)
+		for (i = 0; i < 256; ++i)
 		{
 			if (!StartingWeaponsRepArray[i].bValid)
 				break; //base case
@@ -785,7 +785,7 @@ simulated function SyncAllPerkUpgrades()
 
 	if (NumberOfPerkUpgrades > 0)
 	{
-		for (i = 0; i < 255; ++i)
+		for (i = 0; i < 256; ++i)
 		{
 			if (!PerkUpgradesRepArray[i].bValid)
 				break; //base case
@@ -802,9 +802,9 @@ simulated function SyncAllPerkUpgrades()
 		bPerkUpgradesSynced = True;
 }
 
-simulated function SyncAllSkillUpgrades(const out SkillUpgradeRepStruct SkillUpgradesRepArray[255], int indexMultiplier)
+simulated function SyncAllSkillUpgrades(const out SkillUpgradeRepStruct SkillUpgradesRepArray[256], int indexMultiplier)
 {
-	local int i, indexOffset;
+	local int i, shifted;
 
 	if (NumberOfSkillUpgrades == INDEX_NONE)
 		return;
@@ -814,33 +814,33 @@ simulated function SyncAllSkillUpgrades(const out SkillUpgradeRepStruct SkillUpg
 
 	if (NumberOfSkillUpgrades > 0)
 	{
-		indexOffset = 255 * indexMultiplier;
-
-		for (i = 0; i < 255; ++i)
+		for (i = 0; i < 256; ++i)
 		{
+			shifted = i + 256 * indexMultiplier;
+
 			if (!SkillUpgradesRepArray[i].bValid)
 				break; //base case
 
-			if (!SkillUpgradesList[i + indexOffset].bDone)
+			if (!SkillUpgradesList[shifted].bDone)
 			{
-				SkillUpgradesList[i + indexOffset].SkillUpgrade = class<WMUpgrade_Skill>(DynamicLoadObject(SkillUpgradesRepArray[i].SkillPathName, class'Class'));
-				SkillUpgradesList[i + indexOffset].PerkPathName = SkillUpgradesRepArray[i].PerkPathName;
-				SkillUpgradesList[i + indexOffset].bDone = True;
+				SkillUpgradesList[shifted].SkillUpgrade = class<WMUpgrade_Skill>(DynamicLoadObject(SkillUpgradesRepArray[i].SkillPathName, class'Class'));
+				SkillUpgradesList[shifted].PerkPathName = SkillUpgradesRepArray[i].PerkPathName;
+				SkillUpgradesList[shifted].bDone = True;
 			}
 		}
 	}
 
 
-	if (indexMultiplier == 0 && (i == NumberOfSkillUpgrades || i == 255))
+	if (indexMultiplier == 0 && (i == NumberOfSkillUpgrades || i == 256))
 		bSkillUpgradesSynced_A = True;
 
-	if (indexMultiplier == 1 && ((i + indexOffset) == NumberOfSkillUpgrades || 255 >= NumberOfSkillUpgrades))
+	if (indexMultiplier == 1 && (shifted == NumberOfSkillUpgrades || 256 >= NumberOfSkillUpgrades))
 		bSkillUpgradesSynced_B = True;
 
-	if (indexMultiplier == 2 && ((i + indexOffset) == NumberOfSkillUpgrades || 510 >= NumberOfSkillUpgrades))
+	if (indexMultiplier == 2 && (shifted == NumberOfSkillUpgrades || 512 >= NumberOfSkillUpgrades))
 		bSkillUpgradesSynced_C = True;
 
-	if (indexMultiplier == 3 && ((i + indexOffset) == NumberOfSkillUpgrades || 765 >= NumberOfSkillUpgrades))
+	if (indexMultiplier == 3 && (shifted == NumberOfSkillUpgrades || 768 >= NumberOfSkillUpgrades))
 		bSkillUpgradesSynced_D = True;
 }
 
@@ -856,7 +856,7 @@ simulated function SyncAllWeaponUpgrades()
 
 	if (NumberOfWeaponUpgrades > 0)
 	{
-		for (i = 0; i < 255; ++i)
+		for (i = 0; i < 256; ++i)
 		{
 			if (!WeaponUpgradesRepArray[i].bValid)
 				break; //base case
@@ -889,7 +889,7 @@ simulated function SyncAllEquipmentUpgrades()
 
 	if (NumberOfEquipmentUpgrades > 0)
 	{
-		for (i = 0; i < 255; ++i)
+		for (i = 0; i < 256; ++i)
 		{
 			if (!EquipmentUpgradesRepArray[i].bValid)
 				break; //base case
@@ -921,7 +921,7 @@ simulated function SyncAllSidearmItems()
 
 	if (NumberOfSidearmItems > 0)
 	{
-		for (i = 0; i < 255; ++i)
+		for (i = 0; i < 256; ++i)
 		{
 			if (!SidearmsRepArray[i].bValid)
 				break; //base case
@@ -951,7 +951,7 @@ simulated function SyncAllGrenadeItems()
 
 	if (NumberOfGrenadeItems > 0)
 	{
-		for (i = 0; i < 255; ++i)
+		for (i = 0; i < 256; ++i)
 		{
 			if (!GrenadesRepArray[i].bValid)
 				break; //base case
@@ -980,7 +980,7 @@ simulated function SyncAllSpecialWaves()
 
 	if (NumberOfSpecialWaves > 0)
 	{
-		for (i = 0; i < 255; ++i)
+		for (i = 0; i < 256; ++i)
 		{
 			if (!SpecialWavesRepArray[i].bValid)
 				break; //base case
@@ -1009,7 +1009,7 @@ simulated function SyncAllZedBuffs()
 
 	if (NumberOfZedBuffs > 0)
 	{
-		for (i = 0; i < 255; ++i)
+		for (i = 0; i < 256; ++i)
 		{
 			if (!ZedBuffsRepArray[i].bValid)
 				break; //base case
