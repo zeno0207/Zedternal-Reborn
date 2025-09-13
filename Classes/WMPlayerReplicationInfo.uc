@@ -512,24 +512,24 @@ simulated function byte GetSkillLevel(SkillPurchaseStruct skill)
 
 simulated function byte GetSkillUpgrade(int index)
 {
-	local int div, normalized;
+	local int div, shifted;
 
 	div = index / 256;
-	normalized = index - div * 256;
+	shifted = index - div * 256;
 
 	switch (div)
 	{
 		case 0:
-			return GetSkillLevel(bSkillUpgrade_1[normalized]);
+			return GetSkillLevel(bSkillUpgrade_1[shifted]);
 
 		case 1:
-			return GetSkillLevel(bSkillUpgrade_2[normalized]);
+			return GetSkillLevel(bSkillUpgrade_2[shifted]);
 
 		case 2:
-			return GetSkillLevel(bSkillUpgrade_3[normalized]);
+			return GetSkillLevel(bSkillUpgrade_3[shifted]);
 
 		case 3:
-			return GetSkillLevel(bSkillUpgrade_4[normalized]);
+			return GetSkillLevel(bSkillUpgrade_4[shifted]);
 
 		default:
 			return 0;
@@ -538,24 +538,24 @@ simulated function byte GetSkillUpgrade(int index)
 
 simulated function bool IsSkillUnlocked(int index)
 {
-	local int div, normalized;
+	local int div, shifted;
 
 	div = index / 256;
-	normalized = index - div * 256;
+	shifted = index - div * 256;
 
 	switch (div)
 	{
 		case 0:
-			return bSkillUpgrade_1[normalized].bUnlocked;
+			return bSkillUpgrade_1[shifted].bUnlocked;
 
 		case 1:
-			return bSkillUpgrade_2[normalized].bUnlocked;
+			return bSkillUpgrade_2[shifted].bUnlocked;
 
 		case 2:
-			return bSkillUpgrade_3[normalized].bUnlocked;
+			return bSkillUpgrade_3[shifted].bUnlocked;
 
 		case 3:
-			return bSkillUpgrade_4[normalized].bUnlocked;
+			return bSkillUpgrade_4[shifted].bUnlocked;
 
 		default:
 			return False;
@@ -564,24 +564,24 @@ simulated function bool IsSkillUnlocked(int index)
 
 simulated function bool IsSkillDeluxe(int index)
 {
-	local int div, normalized;
+	local int div, shifted;
 
 	div = index / 256;
-	normalized = index - div * 256;
+	shifted = index - div * 256;
 
 	switch (div)
 	{
 		case 0:
-			return bSkillUpgrade_1[normalized].bDeluxe;
+			return bSkillUpgrade_1[shifted].bDeluxe;
 
 		case 1:
-			return bSkillUpgrade_2[normalized].bDeluxe;
+			return bSkillUpgrade_2[shifted].bDeluxe;
 
 		case 2:
-			return bSkillUpgrade_3[normalized].bDeluxe;
+			return bSkillUpgrade_3[shifted].bDeluxe;
 
 		case 3:
-			return bSkillUpgrade_4[normalized].bDeluxe;
+			return bSkillUpgrade_4[shifted].bDeluxe;
 
 		default:
 			return False;
@@ -590,31 +590,31 @@ simulated function bool IsSkillDeluxe(int index)
 
 simulated function UnlockSkillUpgrade(int index, bool bDeluxe)
 {
-	local int div, normalized;
+	local int div, shifted;
 
 	div = index / 256;
-	normalized = index - div * 256;
+	shifted = index - div * 256;
 
 	switch (div)
 	{
 		case 0:
-			bSkillUpgrade_1[normalized].bUnlocked = True;
-			bSkillUpgrade_1[normalized].bDeluxe = bDeluxe;
+			bSkillUpgrade_1[shifted].bUnlocked = True;
+			bSkillUpgrade_1[shifted].bDeluxe = bDeluxe;
 			return;
 
 		case 1:
-			bSkillUpgrade_2[normalized].bUnlocked = True;
-			bSkillUpgrade_2[normalized].bDeluxe = bDeluxe;
+			bSkillUpgrade_2[shifted].bUnlocked = True;
+			bSkillUpgrade_2[shifted].bDeluxe = bDeluxe;
 			return;
 
 		case 2:
-			bSkillUpgrade_3[normalized].bUnlocked = True;
-			bSkillUpgrade_3[normalized].bDeluxe = bDeluxe;
+			bSkillUpgrade_3[shifted].bUnlocked = True;
+			bSkillUpgrade_3[shifted].bDeluxe = bDeluxe;
 			return;
 
 		case 3:
-			bSkillUpgrade_4[normalized].bUnlocked = True;
-			bSkillUpgrade_4[normalized].bDeluxe = bDeluxe;
+			bSkillUpgrade_4[shifted].bUnlocked = True;
+			bSkillUpgrade_4[shifted].bDeluxe = bDeluxe;
 			return;
 
 		default:
@@ -624,27 +624,27 @@ simulated function UnlockSkillUpgrade(int index, bool bDeluxe)
 
 simulated function PurchaseSkillUpgrade(int index)
 {
-	local int div, normalized;
+	local int div, shifted;
 
 	div = index / 256;
-	normalized = index - div * 256;
+	shifted = index - div * 256;
 
 	switch (div)
 	{
 		case 0:
-			bSkillUpgrade_1[normalized].bPurchased = True;
+			bSkillUpgrade_1[shifted].bPurchased = True;
 			return;
 
 		case 1:
-			bSkillUpgrade_2[normalized].bPurchased = True;
+			bSkillUpgrade_2[shifted].bPurchased = True;
 			return;
 
 		case 2:
-			bSkillUpgrade_3[normalized].bPurchased = True;
+			bSkillUpgrade_3[shifted].bPurchased = True;
 			return;
 
 		case 3:
-			bSkillUpgrade_4[normalized].bPurchased = True;
+			bSkillUpgrade_4[shifted].bPurchased = True;
 			return;
 
 		default:
@@ -654,35 +654,35 @@ simulated function PurchaseSkillUpgrade(int index)
 
 simulated function ResetSkillUpgrade(int index)
 {
-	local int div, normalized;
+	local int div, shifted;
 
 	div = index / 256;
-	normalized = index - div * 256;
+	shifted = index - div * 256;
 
 	switch (div)
 	{
 		case 0:
-			bSkillUpgrade_1[normalized].bPurchased = False;
-			bSkillUpgrade_1[normalized].bUnlocked = False;
-			bSkillUpgrade_1[normalized].bDeluxe = False;
+			bSkillUpgrade_1[shifted].bPurchased = False;
+			bSkillUpgrade_1[shifted].bUnlocked = False;
+			bSkillUpgrade_1[shifted].bDeluxe = False;
 			return;
 
 		case 1:
-			bSkillUpgrade_2[normalized].bPurchased = False;
-			bSkillUpgrade_2[normalized].bUnlocked = False;
-			bSkillUpgrade_2[normalized].bDeluxe = False;
+			bSkillUpgrade_2[shifted].bPurchased = False;
+			bSkillUpgrade_2[shifted].bUnlocked = False;
+			bSkillUpgrade_2[shifted].bDeluxe = False;
 			return;
 
 		case 2:
-			bSkillUpgrade_3[normalized].bPurchased = False;
-			bSkillUpgrade_3[normalized].bUnlocked = False;
-			bSkillUpgrade_3[normalized].bDeluxe = False;
+			bSkillUpgrade_3[shifted].bPurchased = False;
+			bSkillUpgrade_3[shifted].bUnlocked = False;
+			bSkillUpgrade_3[shifted].bDeluxe = False;
 			return;
 
 		case 3:
-			bSkillUpgrade_4[normalized].bPurchased = False;
-			bSkillUpgrade_4[normalized].bUnlocked = False;
-			bSkillUpgrade_4[normalized].bDeluxe = False;
+			bSkillUpgrade_4[shifted].bPurchased = False;
+			bSkillUpgrade_4[shifted].bUnlocked = False;
+			bSkillUpgrade_4[shifted].bDeluxe = False;
 			return;
 
 		default:
@@ -692,60 +692,60 @@ simulated function ResetSkillUpgrade(int index)
 
 simulated function byte GetWeaponUpgrade(int index)
 {
-	local int div, normalized;
+	local int div, shifted;
 
 	div = index / 256;
-	normalized = index - div * 256;
+	shifted = index - div * 256;
 
 	switch (div)
 	{
 		case 0:
-			return bWeaponUpgrade_1[normalized];
+			return bWeaponUpgrade_1[shifted];
 
 		case 1:
-			return bWeaponUpgrade_2[normalized];
+			return bWeaponUpgrade_2[shifted];
 
 		case 2:
-			return bWeaponUpgrade_3[normalized];
+			return bWeaponUpgrade_3[shifted];
 
 		case 3:
-			return bWeaponUpgrade_4[normalized];
+			return bWeaponUpgrade_4[shifted];
 
 		case 4:
-			return bWeaponUpgrade_5[normalized];
+			return bWeaponUpgrade_5[shifted];
 
 		case 5:
-			return bWeaponUpgrade_6[normalized];
+			return bWeaponUpgrade_6[shifted];
 
 		case 6:
-			return bWeaponUpgrade_7[normalized];
+			return bWeaponUpgrade_7[shifted];
 
 		case 7:
-			return bWeaponUpgrade_8[normalized];
+			return bWeaponUpgrade_8[shifted];
 
 		case 8:
-			return bWeaponUpgrade_9[normalized];
+			return bWeaponUpgrade_9[shifted];
 
 		case 9:
-			return bWeaponUpgrade_10[normalized];
+			return bWeaponUpgrade_10[shifted];
 
 		case 10:
-			return bWeaponUpgrade_11[normalized];
+			return bWeaponUpgrade_11[shifted];
 
 		case 11:
-			return bWeaponUpgrade_12[normalized];
+			return bWeaponUpgrade_12[shifted];
 
 		case 12:
-			return bWeaponUpgrade_13[normalized];
+			return bWeaponUpgrade_13[shifted];
 
 		case 13:
-			return bWeaponUpgrade_14[normalized];
+			return bWeaponUpgrade_14[shifted];
 
 		case 14:
-			return bWeaponUpgrade_15[normalized];
+			return bWeaponUpgrade_15[shifted];
 
 		case 15:
-			return bWeaponUpgrade_16[normalized];
+			return bWeaponUpgrade_16[shifted];
 
 		default:
 			return 0;
@@ -754,75 +754,75 @@ simulated function byte GetWeaponUpgrade(int index)
 
 simulated function IncermentWeaponUpgrade(int index)
 {
-	local int div, normalized;
+	local int div, shifted;
 
 	div = index / 256;
-	normalized = index - div * 256;
+	shifted = index - div * 256;
 
 	switch (div)
 	{
 		case 0:
-			++bWeaponUpgrade_1[normalized];
+			++bWeaponUpgrade_1[shifted];
 			break;
 
 		case 1:
-			++bWeaponUpgrade_2[normalized];
+			++bWeaponUpgrade_2[shifted];
 			break;
 
 		case 2:
-			++bWeaponUpgrade_3[normalized];
+			++bWeaponUpgrade_3[shifted];
 			break;
 
 		case 3:
-			++bWeaponUpgrade_4[normalized];
+			++bWeaponUpgrade_4[shifted];
 			break;
 
 		case 4:
-			++bWeaponUpgrade_5[normalized];
+			++bWeaponUpgrade_5[shifted];
 			break;
 
 		case 5:
-			++bWeaponUpgrade_6[normalized];
+			++bWeaponUpgrade_6[shifted];
 			break;
 
 		case 6:
-			++bWeaponUpgrade_7[normalized];
+			++bWeaponUpgrade_7[shifted];
 			break;
 
 		case 7:
-			++bWeaponUpgrade_8[normalized];
+			++bWeaponUpgrade_8[shifted];
 			break;
 
 		case 8:
-			++bWeaponUpgrade_9[normalized];
+			++bWeaponUpgrade_9[shifted];
 			break;
 
 		case 9:
-			++bWeaponUpgrade_10[normalized];
+			++bWeaponUpgrade_10[shifted];
 			break;
 
 		case 10:
-			++bWeaponUpgrade_11[normalized];
+			++bWeaponUpgrade_11[shifted];
 			break;
 
 		case 11:
-			++bWeaponUpgrade_12[normalized];
+			++bWeaponUpgrade_12[shifted];
 			break;
 
 		case 12:
-			++bWeaponUpgrade_13[normalized];
+			++bWeaponUpgrade_13[shifted];
 			break;
 
 		case 13:
-			++bWeaponUpgrade_14[normalized];
+			++bWeaponUpgrade_14[shifted];
 			break;
 
 		case 14:
-			++bWeaponUpgrade_15[normalized];
+			++bWeaponUpgrade_15[shifted];
 			break;
 
 		case 15:
-			++bWeaponUpgrade_16[normalized];
+			++bWeaponUpgrade_16[shifted];
 			break;
 
 		default:
@@ -832,75 +832,75 @@ simulated function IncermentWeaponUpgrade(int index)
 
 simulated function SetWeaponUpgrade(int index, int value)
 {
-	local int div, normalized;
+	local int div, shifted;
 
 	div = index / 256;
-	normalized = index - div * 256;
+	shifted = index - div * 256;
 
 	switch (div)
 	{
 		case 0:
-			bWeaponUpgrade_1[normalized] = value;
+			bWeaponUpgrade_1[shifted] = value;
 			break;
 
 		case 1:
-			bWeaponUpgrade_2[normalized] = value;
+			bWeaponUpgrade_2[shifted] = value;
 			break;
 
 		case 2:
-			bWeaponUpgrade_3[normalized] = value;
+			bWeaponUpgrade_3[shifted] = value;
 			break;
 
 		case 3:
-			bWeaponUpgrade_4[normalized] = value;
+			bWeaponUpgrade_4[shifted] = value;
 			break;
 
 		case 4:
-			bWeaponUpgrade_5[normalized] = value;
+			bWeaponUpgrade_5[shifted] = value;
 			break;
 
 		case 5:
-			bWeaponUpgrade_6[normalized] = value;
+			bWeaponUpgrade_6[shifted] = value;
 			break;
 
 		case 6:
-			bWeaponUpgrade_7[normalized] = value;
+			bWeaponUpgrade_7[shifted] = value;
 			break;
 
 		case 7:
-			bWeaponUpgrade_8[normalized] = value;
+			bWeaponUpgrade_8[shifted] = value;
 			break;
 
 		case 8:
-			bWeaponUpgrade_9[normalized] = value;
+			bWeaponUpgrade_9[shifted] = value;
 			break;
 
 		case 9:
-			bWeaponUpgrade_10[normalized] = value;
+			bWeaponUpgrade_10[shifted] = value;
 			break;
 
 		case 10:
-			bWeaponUpgrade_11[normalized] = value;
+			bWeaponUpgrade_11[shifted] = value;
 			break;
 
 		case 11:
-			bWeaponUpgrade_12[normalized] = value;
+			bWeaponUpgrade_12[shifted] = value;
 			break;
 
 		case 12:
-			bWeaponUpgrade_13[normalized] = value;
+			bWeaponUpgrade_13[shifted] = value;
 			break;
 
 		case 13:
-			bWeaponUpgrade_14[normalized] = value;
+			bWeaponUpgrade_14[shifted] = value;
 			break;
 
 		case 14:
-			bWeaponUpgrade_15[normalized] = value;
+			bWeaponUpgrade_15[shifted] = value;
 			break;
 
 		case 15:
-			bWeaponUpgrade_16[normalized] = value;
+			bWeaponUpgrade_16[shifted] = value;
 			break;
 
 		default:
