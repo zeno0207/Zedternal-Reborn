@@ -2,6 +2,7 @@ class WMGFxHudWrapper extends KFGFxHudWrapper;
 
 var Texture2D backgroundIcon;
 var int zedBuffIndex;
+var bool bNewZedBuff;
 var float bgFactor;
 
 var const color SupplierThirdUsableColor;
@@ -91,7 +92,7 @@ event DrawHUD()
 	//draw ZEDBuff warning during trader time//
 	///////////////////////////////////////////
 
-	if(!WMGRI.bTraderIsOpen)
+	if (!WMGRI.bTraderIsOpen)
 		return;
 
 	nb = 0;
@@ -106,7 +107,7 @@ event DrawHUD()
 	if (bgFactor == 0)
 		bgFactor = 0.0474072f * Canvas.SizeX / backgroundIcon.SizeX;
 
-	if (zedBuffIndex == 0)
+	if (bNewZedBuff)
 	{
 		size = 0.975f;
 
@@ -143,17 +144,17 @@ event DrawHUD()
 		////////////////////////////////////////////////
 		////////////////////////////////////////////////
 	}
-	else if (zedBuffIndex != INDEX_NONE)
+	else if (zedBuffIndex > INDEX_NONE)
 	{
 		size = 0.825f;
 
-		if (WMGRI.ZedBuffsList[zedBuffIndex - 1].ZedBuff.default.bShouldLocalize)
-			buffTitle = WMGRI.ZedBuffsList[zedBuffIndex - 1].ZedBuff.static.GetBuffDescription();
+		if (WMGRI.ZedBuffsList[zedBuffIndex].ZedBuff.default.bShouldLocalize)
+			buffTitle = WMGRI.ZedBuffsList[zedBuffIndex].ZedBuff.static.GetBuffDescription();
 		else
-			buffTitle = WMGRI.ZedBuffsList[zedBuffIndex - 1].ZedBuff.default.BuffDescription;
+			buffTitle = WMGRI.ZedBuffsList[zedBuffIndex].ZedBuff.default.BuffDescription;
 
-		if (WMGRI.ActiveZedBuffs[zedBuffIndex - 1] > 1)
-			buffTitle = buffTitle @ "x" $ WMGRI.ActiveZedBuffs[zedBuffIndex - 1];
+		if (WMGRI.ActiveZedBuffs[zedBuffIndex] > 1)
+			buffTitle = buffTitle @ "x" $ WMGRI.ActiveZedBuffs[zedBuffIndex];
 
 		Canvas.StrLen(buffTitle, XL, YL);
 		XL *= size;
@@ -200,7 +201,7 @@ event DrawHUD()
 			Canvas.SetDrawColor(210, 210, 210, 255);
 			Canvas.DrawTexture(backgroundIcon, bgFactor);
 
-			if (i == zedBuffIndex - 1)
+			if (i == zedBuffIndex)
 			{
 				Canvas.SetPos(X - 3, Y + 4);
 				Canvas.SetDrawColor(85, 85, 85, 200);
@@ -256,7 +257,7 @@ simulated function ResestWarningMessage()
 {
 	ClearTimer(NameOf(UpdateWarningString));
 
-	zedBuffIndex = 0;
+	bNewZedBuff = True;
 
 	SetTimer(1.5f, True, NameOf(UpdateWarningString));
 }
@@ -264,23 +265,28 @@ simulated function ResestWarningMessage()
 simulated function UpdateWarningString()
 {
 	local WMGameReplicationInfo WMGRI;
-	local int count;
+	local int current, start;
+
+	bNewZedBuff = False;
 
 	WMGRI = WMGameReplicationInfo(KFGRI);
-	if(WMGRI == None)
+	if (WMGRI == None || !WMGRI.bTraderIsOpen)
 		return;
 
-	zedBuffIndex = Max(1, zedBuffIndex + 1);
-	count = 0;
-	while(zedBuffIndex <= 255 && WMGRI.ActiveZedBuffs[zedBuffIndex - 1] == 0 && count <= 255)
-	{
-		++zedBuffIndex;
-		++count;
-		if (zedBuffIndex == 256)
-			zedBuffIndex = 1;
-	}
-	if (count == 256)
-		zedBuffIndex = INDEX_NONE;
+	start = Max(0, zedBuffIndex);
+	current = start;
+	do {
+		++current;
+
+		if (current == 256)
+			current = 0;
+
+		if (WMGRI.ActiveZedBuffs[current] > 0)
+		{
+			zedBuffIndex = current;
+			break;
+		}
+	} until (current == start);
 }
 
 simulated function DrawPerkIcons(KFPawn_Human KFPH, float PerkIconSize, float PerkIconPosX, float PerkIconPosY, float SupplyIconPosX, float SupplyIconPosY, bool bDropShadow)
@@ -384,6 +390,7 @@ defaultproperties
 	HUDClass=Class'ZedternalReborn.WMGFxMoviePlayer_HUD'
 	backgroundIcon=Texture2D'ZedternalReborn_Resource.ZedBuffs.UI_ZedBuff_Background'
 	zedBuffIndex=INDEX_NONE
+	bNewZedBuff=False
 	bgFactor=0
 
 	SupplierThirdUsableColor=(R=192, G=160, B=0, A=192)
