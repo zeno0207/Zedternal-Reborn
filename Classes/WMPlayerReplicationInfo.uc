@@ -1,5 +1,21 @@
 class WMPlayerReplicationInfo extends KFPlayerReplicationInfo;
 
+
+// Structs for better organization
+struct SkillPurchaseStruct
+{
+	var bool bPurchased;
+	var bool bUnlocked;
+	var bool bDeluxe;
+
+	structdefaultproperties
+	{
+		bPurchased=False
+		bUnlocked=False
+		bDeluxe=False
+	}
+};
+
 //Replicated arrays
 var repnotify byte bPerkUpgrade[255];
 var byte bPerkUpgradeAvailable[255];
@@ -19,13 +35,14 @@ var repnotify byte bWeaponUpgrade_13[255];
 var repnotify byte bWeaponUpgrade_14[255];
 var repnotify byte bWeaponUpgrade_15[255];
 var repnotify byte bWeaponUpgrade_16[255];
-var repnotify byte bSkillUpgrade[255];
+var repnotify SkillPurchaseStruct bSkillUpgrade_1[255];
+var repnotify SkillPurchaseStruct bSkillUpgrade_2[255];
+var repnotify SkillPurchaseStruct bSkillUpgrade_3[255];
+var repnotify SkillPurchaseStruct bSkillUpgrade_4[255];
 var repnotify byte bEquipmentUpgrade[255];
 var byte bSidearmItem[255];
-var byte bSkillUnlocked[255];
-var byte bSkillDeluxe[255];
 
-// Current "perk" : perk's icon reflets where player spend his dosh (perk upgrades and skill upgrades)
+// Current "perk" : perk's icon reflects where player spend his dosh (perk upgrades and skill upgrades)
 var repnotify byte PerkIconIndex;
 var texture2D CurrentIconToDisplay;
 var int MaxDoshSpent;
@@ -44,8 +61,7 @@ var byte SyncLoopCounter;
 
 // dynamic array used to track purchases of player (on server and client sides)
 // used in WMPerk
-var array<byte> Purchase_PerkUpgrade, Purchase_SkillUpgrade, Purchase_EquipmentUpgrade;
-var array<int> Purchase_WeaponUpgrade;
+var array<int> Purchase_PerkUpgrade, Purchase_SkillUpgrade, Purchase_WeaponUpgrade, Purchase_EquipmentUpgrade;
 
 // For scoreboard updates
 var int UncompressedPing;
@@ -78,9 +94,10 @@ replication
 		bPerkUpgrade,
 		bPerkUpgradeAvailable,
 		bSidearmItem,
-		bSkillDeluxe,
-		bSkillUnlocked,
-		bSkillUpgrade,
+		bSkillUpgrade_1,
+		bSkillUpgrade_2,
+		bSkillUpgrade_3,
+		bSkillUpgrade_4,
 		bWeaponUpgrade_1,
 		bWeaponUpgrade_2,
 		bWeaponUpgrade_3,
@@ -128,7 +145,10 @@ simulated event ReplicatedEvent(name VarName)
 			break;
 
 		case 'bPerkUpgrade':
-		case 'bSkillUpgrade':
+		case 'bSkillUpgrade_1':
+		case 'bSkillUpgrade_2':
+		case 'bSkillUpgrade_3':
+		case 'bSkillUpgrade_4':
 		case 'bEquipmentUpgrade':
 		case 'bWeaponUpgrade_1':
 		case 'bWeaponUpgrade_2':
@@ -185,9 +205,10 @@ function CopyProperties(PlayerReplicationInfo PRI)
 			WMPRI.bWeaponUpgrade_14[i] = bWeaponUpgrade_14[i];
 			WMPRI.bWeaponUpgrade_15[i] = bWeaponUpgrade_15[i];
 			WMPRI.bWeaponUpgrade_16[i] = bWeaponUpgrade_16[i];
-			WMPRI.bSkillUpgrade[i] = bSkillUpgrade[i];
-			WMPRI.bSkillUnlocked[i] = bSkillUnlocked[i];
-			WMPRI.bSkillDeluxe[i] = bSkillDeluxe[i];
+			WMPRI.bSkillUpgrade_1[i] = bSkillUpgrade_1[i];
+			WMPRI.bSkillUpgrade_2[i] = bSkillUpgrade_2[i];
+			WMPRI.bSkillUpgrade_3[i] = bSkillUpgrade_3[i];
+			WMPRI.bSkillUpgrade_4[i] = bSkillUpgrade_4[i];
 			WMPRI.bEquipmentUpgrade[i] = bEquipmentUpgrade[i];
 			WMPRI.bSidearmItem[i] = bSidearmItem[i];
 		}
@@ -310,9 +331,9 @@ simulated function UpdatePurchase()
 	}
 
 	Purchase_SkillUpgrade.length = 0;
-	for (i = 0; i < 255; ++i)
+	for (i = 0; i < 1020; ++i)
 	{
-		if (bSkillUpgrade[i] > 0)
+		if (GetSkillUpgrade(i) > 0)
 			Purchase_SkillUpgrade.AddItem(i);
 	}
 
@@ -333,7 +354,7 @@ simulated function UpdatePurchase()
 
 function RecalculatePlayerLevel()
 {
-	local byte index, level;
+	local int index, level;
 	local WMGameReplicationInfo WMGRI;
 
 	WMGRI = WMGameReplicationInfo(WorldInfo.GRI);
@@ -359,7 +380,7 @@ function RecalculatePlayerLevel()
 					break;
 			}
 
-			if (bSkillDeluxe[index] > 0)
+			if (IsSkillDeluxe(index))
 				UpdateCurrentIconToDisplay(level, WMGRI.SkillUpgDeluxePrice, 3);
 			else
 				UpdateCurrentIconToDisplay(level, WMGRI.SkillUpgPrice, 1);
@@ -465,6 +486,199 @@ simulated function NotifyWaveStart()
 	super.NotifyWaveStart();
 
 	bPerkTertiarySupplyUsed = False;
+}
+
+simulated function byte GetSkillLevel(SkillPurchaseStruct skill)
+{
+	if (skill.bPurchased)
+	{
+		if (skill.bDeluxe)
+			return 2;
+		else
+			return 1;
+	}
+
+	return 0;
+}
+
+simulated function byte GetSkillUpgrade(int index)
+{
+	local int div, normalized;
+
+	div = index / 255;
+	normalized = index - div * 255;
+
+	switch (div)
+	{
+		case 0:
+			return GetSkillLevel(bSkillUpgrade_1[normalized]);
+
+		case 1:
+			return GetSkillLevel(bSkillUpgrade_2[normalized]);
+
+		case 2:
+			return GetSkillLevel(bSkillUpgrade_3[normalized]);
+
+		case 3:
+			return GetSkillLevel(bSkillUpgrade_4[normalized]);
+
+		default:
+			return 0;
+	}
+}
+
+simulated function bool IsSkillUnlocked(int index)
+{
+	local int div, normalized;
+
+	div = index / 255;
+	normalized = index - div * 255;
+
+	switch (div)
+	{
+		case 0:
+			return bSkillUpgrade_1[normalized].bUnlocked;
+
+		case 1:
+			return bSkillUpgrade_2[normalized].bUnlocked;
+
+		case 2:
+			return bSkillUpgrade_3[normalized].bUnlocked;
+
+		case 3:
+			return bSkillUpgrade_4[normalized].bUnlocked;
+
+		default:
+			return False;
+	}
+}
+
+simulated function bool IsSkillDeluxe(int index)
+{
+	local int div, normalized;
+
+	div = index / 255;
+	normalized = index - div * 255;
+
+	switch (div)
+	{
+		case 0:
+			return bSkillUpgrade_1[normalized].bDeluxe;
+
+		case 1:
+			return bSkillUpgrade_2[normalized].bDeluxe;
+
+		case 2:
+			return bSkillUpgrade_3[normalized].bDeluxe;
+
+		case 3:
+			return bSkillUpgrade_4[normalized].bDeluxe;
+
+		default:
+			return False;
+	}
+}
+
+simulated function UnlockSkillUpgrade(int index, bool bDeluxe)
+{
+	local int div, normalized;
+
+	div = index / 255;
+	normalized = index - div * 255;
+
+	switch (div)
+	{
+		case 0:
+			bSkillUpgrade_1[normalized].bUnlocked = True;
+			bSkillUpgrade_1[normalized].bDeluxe = bDeluxe;
+			return;
+
+		case 1:
+			bSkillUpgrade_2[normalized].bUnlocked = True;
+			bSkillUpgrade_2[normalized].bDeluxe = bDeluxe;
+			return;
+
+		case 2:
+			bSkillUpgrade_3[normalized].bUnlocked = True;
+			bSkillUpgrade_3[normalized].bDeluxe = bDeluxe;
+			return;
+
+		case 3:
+			bSkillUpgrade_4[normalized].bUnlocked = True;
+			bSkillUpgrade_4[normalized].bDeluxe = bDeluxe;
+			return;
+
+		default:
+			return;
+	}
+}
+
+simulated function PurchaseSkillUpgrade(int index)
+{
+	local int div, normalized;
+
+	div = index / 255;
+	normalized = index - div * 255;
+
+	switch (div)
+	{
+		case 0:
+			bSkillUpgrade_1[normalized].bPurchased = True;
+			return;
+
+		case 1:
+			bSkillUpgrade_2[normalized].bPurchased = True;
+			return;
+
+		case 2:
+			bSkillUpgrade_3[normalized].bPurchased = True;
+			return;
+
+		case 3:
+			bSkillUpgrade_4[normalized].bPurchased = True;
+			return;
+
+		default:
+			return;
+	}
+}
+
+simulated function ResetSkillUpgrade(int index)
+{
+	local int div, normalized;
+
+	div = index / 255;
+	normalized = index - div * 255;
+
+	switch (div)
+	{
+		case 0:
+			bSkillUpgrade_1[normalized].bPurchased = False;
+			bSkillUpgrade_1[normalized].bUnlocked = False;
+			bSkillUpgrade_1[normalized].bDeluxe = False;
+			return;
+
+		case 1:
+			bSkillUpgrade_2[normalized].bPurchased = False;
+			bSkillUpgrade_2[normalized].bUnlocked = False;
+			bSkillUpgrade_2[normalized].bDeluxe = False;
+			return;
+
+		case 2:
+			bSkillUpgrade_3[normalized].bPurchased = False;
+			bSkillUpgrade_3[normalized].bUnlocked = False;
+			bSkillUpgrade_3[normalized].bDeluxe = False;
+			return;
+
+		case 3:
+			bSkillUpgrade_4[normalized].bPurchased = False;
+			bSkillUpgrade_4[normalized].bUnlocked = False;
+			bSkillUpgrade_4[normalized].bDeluxe = False;
+			return;
+
+		default:
+			return;
+	}
 }
 
 simulated function byte GetWeaponUpgrade(int index)

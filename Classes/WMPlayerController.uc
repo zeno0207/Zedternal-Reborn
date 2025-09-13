@@ -96,7 +96,7 @@ reliable server function BuyWeaponUpgrade(int ItemDefinition, int Cost)
 	}
 }
 
-reliable server function BuySkillUpgrade(int ItemDefinition, int PerkItemDefinition, int Cost, int lvl)
+reliable server function BuySkillUpgrade(int ItemDefinition, int PerkItemDefinition, int Cost)
 {
 	local WMPlayerReplicationInfo WMPRI;
 
@@ -104,7 +104,7 @@ reliable server function BuySkillUpgrade(int ItemDefinition, int PerkItemDefinit
 
 	if (WMPRI != None && WMPRI.Score >= Cost)
 	{
-		WMPRI.bSkillUpgrade[ItemDefinition] = min(WMPRI.bSkillUpgrade[ItemDefinition] + lvl, 2);
+		WMPRI.PurchaseSkillUpgrade(ItemDefinition);
 		if (WMPRI.Purchase_SkillUpgrade.Find(ItemDefinition) == INDEX_NONE)
 			WMPRI.Purchase_SkillUpgrade.AddItem(ItemDefinition);
 
@@ -116,7 +116,7 @@ reliable server function BuySkillUpgrade(int ItemDefinition, int PerkItemDefinit
 
 		UpdateWeaponMagAndCap();
 
-		if (lvl > 1)
+		if (WMPRI.IsSkillDeluxe(ItemDefinition))
 			WMPRI.UpdateCurrentIconToDisplay(PerkItemDefinition, Cost, 3); // Deluxe skills give +3 lvl
 		else
 			WMPRI.UpdateCurrentIconToDisplay(PerkItemDefinition, Cost, 1);
@@ -130,11 +130,7 @@ reliable server function UnlockSkill(int index, bool deluxe)
 	WMPRI = WMPlayerReplicationInfo(Pawn.PlayerReplicationInfo);
 
 	if (WMPRI != None)
-	{
-		WMPRI.bSkillUnlocked[index] = 1;
-		if (deluxe)
-			WMPRI.bSkillDeluxe[index] = 1;
-	}
+		WMPRI.UnlockSkillUpgrade(index, deluxe);
 }
 
 reliable server function RerollSkillsForPerk(string RerollPerkPathName, int Cost)
@@ -151,9 +147,7 @@ reliable server function RerollSkillsForPerk(string RerollPerkPathName, int Cost
 		{
 			if (RerollPerkPathName ~= WMGRI.SkillUpgradesList[i].PerkPathName)
 			{
-				WMPRI.bSkillUpgrade[i] = 0;
-				WMPRI.bSkillUnlocked[i] = 0;
-				WMPRI.bSkillDeluxe[i] = 0;
+				WMPRI.ResetSkillUpgrade(i);
 
 				if (WMPRI.Purchase_SkillUpgrade.Find(i) != INDEX_NONE)
 				{

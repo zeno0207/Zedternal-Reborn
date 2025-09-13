@@ -383,7 +383,7 @@ function ServerPassiveBonusDefaults()
 
 function ServerComputePassiveBonuses()
 {
-	local byte i, index;
+	local int i, index;
 
 	ServerPassiveBonusDefaults();
 
@@ -404,14 +404,14 @@ function ServerComputePassiveBonuses()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyDamageGivenPassive(PassiveDamageGiven, MyWMPRI.bSkillUpgrade[index]);
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyDamageTakenPassive(PassiveDamageTaken, MyWMPRI.bSkillUpgrade[index]);
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyHealAmountPassive(PassiveHealAmount, MyWMPRI.bSkillUpgrade[index]);
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyHardAttackDamagePassive(PassiveHardAttackDamage, MyWMPRI.bSkillUpgrade[index]);
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyStunPowerPassive(PassiveStunPower, MyWMPRI.bSkillUpgrade[index]);
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyStumblePowerPassive(PassiveStumblePower, MyWMPRI.bSkillUpgrade[index]);
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyKnockdownPowerPassive(PassiveKnockdownPower, MyWMPRI.bSkillUpgrade[index]);
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifySnarePowerPassive(PassiveSnarePower, MyWMPRI.bSkillUpgrade[index]);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyDamageGivenPassive(PassiveDamageGiven, MyWMPRI.GetSkillUpgrade(index));
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyDamageTakenPassive(PassiveDamageTaken, MyWMPRI.GetSkillUpgrade(index));
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyHealAmountPassive(PassiveHealAmount, MyWMPRI.GetSkillUpgrade(index));
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyHardAttackDamagePassive(PassiveHardAttackDamage, MyWMPRI.GetSkillUpgrade(index));
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyStunPowerPassive(PassiveStunPower, MyWMPRI.GetSkillUpgrade(index));
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyStumblePowerPassive(PassiveStumblePower, MyWMPRI.GetSkillUpgrade(index));
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyKnockdownPowerPassive(PassiveKnockdownPower, MyWMPRI.GetSkillUpgrade(index));
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifySnarePowerPassive(PassiveSnarePower, MyWMPRI.GetSkillUpgrade(index));
 		}
 		for (i = 0; i < MyWMPRI.Purchase_EquipmentUpgrade.Length; ++i)
 		{
@@ -446,7 +446,7 @@ simulated function ClientAndServerPassiveBonusDefaults()
 
 simulated function ClientAndServerComputePassiveBonuses()
 {
-	local byte i, index;
+	local int i, index;
 
 	ClientAndServerPassiveBonusDefaults();
 
@@ -474,18 +474,18 @@ simulated function ClientAndServerComputePassiveBonuses()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifySpeedPassive(PassiveMovementSpeed, MyWMPRI.bSkillUpgrade[index]);
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyWeaponSwitchTimePassive(PassiveSwitchSpeed, MyWMPRI.bSkillUpgrade[index]);
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyMeleeAttackSpeedPassive(PassiveMeleeAttackSpeed, MyWMPRI.bSkillUpgrade[index]);
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetReloadRateScalePassive(PassiveReloadRateScale, MyWMPRI.bSkillUpgrade[index]);
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyRecoilPassive(PassiveRecoil, MyWMPRI.bSkillUpgrade[index]);
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifySpreadPassive(PassiveSpread, MyWMPRI.bSkillUpgrade[index]);
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyWeaponBopDampingPassive(PassiveBobDamp, MyWMPRI.bSkillUpgrade[index]);
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyMagSizeAndNumberPassive(PassiveMagazineCapacity, MyWMPRI.bSkillUpgrade[index]);
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifySpareAmmoAmountPassive(PassiveSpareAmmo, MyWMPRI.bSkillUpgrade[index]);
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyRateOfFirePassive(PassiveRateOfFire, MyWMPRI.bSkillUpgrade[index]);
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyTightChokePassive(PassiveTightChoke, MyWMPRI.bSkillUpgrade[index]);
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyPenetrationPassive(PassivePenetration, MyWMPRI.bSkillUpgrade[index]);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifySpeedPassive(PassiveMovementSpeed, MyWMPRI.GetSkillUpgrade(index));
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyWeaponSwitchTimePassive(PassiveSwitchSpeed, MyWMPRI.GetSkillUpgrade(index));
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyMeleeAttackSpeedPassive(PassiveMeleeAttackSpeed, MyWMPRI.GetSkillUpgrade(index));
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetReloadRateScalePassive(PassiveReloadRateScale, MyWMPRI.GetSkillUpgrade(index));
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyRecoilPassive(PassiveRecoil, MyWMPRI.GetSkillUpgrade(index));
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifySpreadPassive(PassiveSpread, MyWMPRI.GetSkillUpgrade(index));
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyWeaponBopDampingPassive(PassiveBobDamp, MyWMPRI.GetSkillUpgrade(index));
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyMagSizeAndNumberPassive(PassiveMagazineCapacity, MyWMPRI.GetSkillUpgrade(index));
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifySpareAmmoAmountPassive(PassiveSpareAmmo, MyWMPRI.GetSkillUpgrade(index));
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyRateOfFirePassive(PassiveRateOfFire, MyWMPRI.GetSkillUpgrade(index));
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyTightChokePassive(PassiveTightChoke, MyWMPRI.GetSkillUpgrade(index));
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyPenetrationPassive(PassivePenetration, MyWMPRI.GetSkillUpgrade(index));
 		}
 		for (i = 0; i < MyWMPRI.Purchase_EquipmentUpgrade.Length; ++i)
 		{
@@ -645,7 +645,7 @@ function ModifyDamageGiven(out int InDamage, optional Actor DamageCauser, option
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyDamageGiven(InDamage, DefaultDamage, MyWMPRI.bSkillUpgrade[index], DamageCauser, MyKFPM, DamageInstigator, DamageType, HitZoneIdx, MyKFW);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyDamageGiven(InDamage, DefaultDamage, MyWMPRI.GetSkillUpgrade(index), DamageCauser, MyKFPM, DamageInstigator, DamageType, HitZoneIdx, MyKFW);
 		}
 	}
 
@@ -693,7 +693,7 @@ function ModifyHardAttackDamage(out int InDamage)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyHardAttackDamage(InDamage, DefaultDamage, MyWMPRI.bSkillUpgrade[index], OwnerPawn);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyHardAttackDamage(InDamage, DefaultDamage, MyWMPRI.GetSkillUpgrade(index), OwnerPawn);
 		}
 	}
 
@@ -771,7 +771,7 @@ function ModifyDamageTaken(out int InDamage, optional class<DamageType> DamageTy
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyDamageTaken(InDamage, DefaultDamage, MyWMPRI.bSkillUpgrade[index], OwnerPawn, DamageType, InstigatedBy, MyKFW);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyDamageTaken(InDamage, DefaultDamage, MyWMPRI.GetSkillUpgrade(index), OwnerPawn, DamageType, InstigatedBy, MyKFW);
 		}
 	}
 
@@ -781,7 +781,7 @@ function ModifyDamageTaken(out int InDamage, optional class<DamageType> DamageTy
 
 function ModifyHealth(out int InHealth)
 {
-	local byte i, index;
+	local int i, index;
 	local int DefaultHealth;
 
 	// Server Custom Balance
@@ -809,7 +809,7 @@ function ModifyHealth(out int InHealth)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyHealth(InHealth, DefaultHealth, MyWMPRI.bSkillUpgrade[index]);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyHealth(InHealth, DefaultHealth, MyWMPRI.GetSkillUpgrade(index));
 		}
 	}
 }
@@ -821,7 +821,7 @@ function ModifyArmor(out byte MaxArmor)
 
 function ModifyArmorInt(out int MaxArmor)
 {
-	local byte i, index;
+	local int i, index;
 	local int DefaultArmor;
 
 	// Server Custom Balance
@@ -849,7 +849,7 @@ function ModifyArmorInt(out int MaxArmor)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyArmor(MaxArmor, DefaultArmor, MyWMPRI.bSkillUpgrade[index]);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyArmor(MaxArmor, DefaultArmor, MyWMPRI.GetSkillUpgrade(index));
 		}
 	}
 }
@@ -888,7 +888,7 @@ simulated function ModifyMeleeAttackSpeed(out float InDuration, KFWeapon KFW)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyMeleeAttackSpeed(InDuration, DefaultDuration, MyWMPRI.bSkillUpgrade[index], KFW);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyMeleeAttackSpeed(InDuration, DefaultDuration, MyWMPRI.GetSkillUpgrade(index), KFW);
 		}
 	}
 
@@ -929,7 +929,7 @@ simulated function float GetReloadRateScale(KFWeapon KFW)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetReloadRateScale(InReloadRateScale, MyWMPRI.bSkillUpgrade[index], KFW, OwnerPawn);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetReloadRateScale(InReloadRateScale, MyWMPRI.GetSkillUpgrade(index), KFW, OwnerPawn);
 		}
 	}
 
@@ -979,7 +979,7 @@ function bool ModifyHealAmount(out float HealAmount)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyHealAmount(HealAmount, DefaultHealAmount, MyWMPRI.bSkillUpgrade[index]);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyHealAmount(HealAmount, DefaultHealAmount, MyWMPRI.GetSkillUpgrade(index));
 		}
 	}
 
@@ -988,7 +988,7 @@ function bool ModifyHealAmount(out float HealAmount)
 
 simulated function ModifyHealerRechargeTime(out float RechargeRate)
 {
-	local byte i, index;
+	local int i, index;
 	local float DefaultRechargeRate;
 
 	DefaultRechargeRate = RechargeRate;
@@ -1013,14 +1013,14 @@ simulated function ModifyHealerRechargeTime(out float RechargeRate)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyHealerRechargeTime(RechargeRate, DefaultRechargeRate, MyWMPRI.bSkillUpgrade[index]);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyHealerRechargeTime(RechargeRate, DefaultRechargeRate, MyWMPRI.GetSkillUpgrade(index));
 		}
 	}
 }
 
 simulated function ModifySpeed(out float Speed)
 {
-	local byte i, index;
+	local int i, index;
 	local float DefaultSpeed;
 
 	DefaultSpeed = Speed;
@@ -1046,7 +1046,7 @@ simulated function ModifySpeed(out float Speed)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifySpeed(Speed, DefaultSpeed, MyWMPRI.bSkillUpgrade[index], OwnerPawn);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifySpeed(Speed, DefaultSpeed, MyWMPRI.GetSkillUpgrade(index), OwnerPawn);
 		}
 	}
 }
@@ -1085,7 +1085,7 @@ simulated function ModifyRecoil(out float CurrentRecoilModifier, KFWeapon KFW)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyRecoil(CurrentRecoilModifier, DefaultRecoilModifier, MyWMPRI.bSkillUpgrade[index], KFW);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyRecoil(CurrentRecoilModifier, DefaultRecoilModifier, MyWMPRI.GetSkillUpgrade(index), KFW);
 		}
 	}
 
@@ -1129,7 +1129,7 @@ simulated function ModifySpread(out float InSpread)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifySpread(InSpread, DefaultSpreadModifier, MyWMPRI.bSkillUpgrade[index], KFW);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifySpread(InSpread, DefaultSpreadModifier, MyWMPRI.GetSkillUpgrade(index), KFW);
 		}
 	}
 
@@ -1171,7 +1171,7 @@ simulated function ModifyWeaponBopDamping(out float BobDamping, KFWeapon PawnWea
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyWeaponBopDamping(InBobDamping, DefaultBobDamping, MyWMPRI.bSkillUpgrade[index], PawnWeapon);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyWeaponBopDamping(InBobDamping, DefaultBobDamping, MyWMPRI.GetSkillUpgrade(index), PawnWeapon);
 		}
 	}
 
@@ -1215,7 +1215,7 @@ simulated function ModifyMagSizeAndNumber(KFWeapon KFW, out int MagazineCapacity
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyMagSizeAndNumber(MagCapacity, DefaultMagazineCapacity, MyWMPRI.bSkillUpgrade[index], KFW, WeaponPerkClass, bSecondary, WeaponClassname);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyMagSizeAndNumber(MagCapacity, DefaultMagazineCapacity, MyWMPRI.GetSkillUpgrade(index), KFW, WeaponPerkClass, bSecondary, WeaponClassname);
 		}
 	}
 
@@ -1268,7 +1268,7 @@ simulated function ModifySpareAmmoAmount(KFWeapon KFW, out int PrimarySpareAmmo,
 			for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 			{
 				index = MyWMPRI.Purchase_SkillUpgrade[i];
-				MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifySpareAmmoAmount(PrimarySpareAmmo, DefaultSpareAmmo, MyWMPRI.bSkillUpgrade[index], KFW, TraderItem, bSecondary);
+				MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifySpareAmmoAmount(PrimarySpareAmmo, DefaultSpareAmmo, MyWMPRI.GetSkillUpgrade(index), KFW, TraderItem, bSecondary);
 			}
 		}
 
@@ -1286,7 +1286,7 @@ simulated function ModifyMaxSpareAmmoAmount(KFWeapon KFW, out int MaxSpareAmmo, 
 
 simulated function ModifyMaxSpareGrenadeAmount()
 {
-	local byte i, index;
+	local int i, index;
 	local int SpareGrenade;
 	local int DefaultSpareGrenade;
 
@@ -1317,7 +1317,7 @@ simulated function ModifyMaxSpareGrenadeAmount()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifySpareGrenadeAmount(SpareGrenade, DefaultSpareGrenade, MyWMPRI.bSkillUpgrade[index]);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifySpareGrenadeAmount(SpareGrenade, DefaultSpareGrenade, MyWMPRI.GetSkillUpgrade(index));
 		}
 
 		MaxGrenadeCount = SpareGrenade;
@@ -1326,7 +1326,7 @@ simulated function ModifyMaxSpareGrenadeAmount()
 
 simulated function ModifyWeldingRate(out float FastenRate, out float UnfastenRate)
 {
-	local byte i, index;
+	local int i, index;
 	local float DefaultFastenRate, DefaultUnfastenRate;
 
 	DefaultFastenRate = FastenRate;
@@ -1352,14 +1352,14 @@ simulated function ModifyWeldingRate(out float FastenRate, out float UnfastenRat
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyWeldingRate(FastenRate, DefaultFastenRate, UnfastenRate, DefaultUnfastenRate, MyWMPRI.bSkillUpgrade[index]);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyWeldingRate(FastenRate, DefaultFastenRate, UnfastenRate, DefaultUnfastenRate, MyWMPRI.GetSkillUpgrade(index));
 		}
 	}
 }
 
 function float GetZedTimeExtensionMax(byte Level)
 {
-	local byte i, index;
+	local int i, index;
 	local float DefaultExtension;
 	local float Extension;
 
@@ -1386,7 +1386,7 @@ function float GetZedTimeExtensionMax(byte Level)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetZedTimeExtension(Extension, DefaultExtension, MyWMPRI.bSkillUpgrade[index]);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetZedTimeExtension(Extension, DefaultExtension, MyWMPRI.GetSkillUpgrade(index));
 		}
 	}
 
@@ -1395,7 +1395,7 @@ function float GetZedTimeExtensionMax(byte Level)
 
 function ApplyWeightLimits()
 {
-	local byte i, index;
+	local int i, index;
 	local KFInventoryManager KFIM;
 	local int DefaultWeightLimit;
 	local int InWeightLimit;
@@ -1431,7 +1431,7 @@ function ApplyWeightLimits()
 				for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 				{
 					index = MyWMPRI.Purchase_SkillUpgrade[i];
-					MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ApplyWeightLimits(InWeightLimit, DefaultWeightLimit, MyWMPRI.bSkillUpgrade[index]);
+					MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ApplyWeightLimits(InWeightLimit, DefaultWeightLimit, MyWMPRI.GetSkillUpgrade(index));
 				}
 			}
 
@@ -1443,7 +1443,7 @@ function ApplyWeightLimits()
 
 function ModifyDoTScaler(out float DoTScaler, optional class<KFDamageType> KFDT, optional bool bNapalmInfected)
 {
-	local byte i, index;
+	local int i, index;
 	local float DefaultDoTScaler;
 
 	DefaultDoTScaler = DoTScaler;
@@ -1468,7 +1468,7 @@ function ModifyDoTScaler(out float DoTScaler, optional class<KFDamageType> KFDT,
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyDoTScaler(DotScaler, DefaultDoTScaler, MyWMPRI.bSkillUpgrade[index], KFDT, bNapalmInfected);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyDoTScaler(DotScaler, DefaultDoTScaler, MyWMPRI.GetSkillUpgrade(index), KFDT, bNapalmInfected);
 		}
 	}
 }
@@ -1508,7 +1508,7 @@ simulated function ModifyRateOfFire(out float InRate, KFWeapon KFW)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyRateOfFire(InRate, DefaultRate, MyWMPRI.bSkillUpgrade[index], KFW);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyRateOfFire(InRate, DefaultRate, MyWMPRI.GetSkillUpgrade(index), KFW);
 		}
 	}
 
@@ -1565,7 +1565,7 @@ simulated function float GetTightChokeModifier()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyTightChoke(InTight, DefaultTight, MyWMPRI.bSkillUpgrade[index], KFW, OwnerPawn);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyTightChoke(InTight, DefaultTight, MyWMPRI.GetSkillUpgrade(index), KFW, OwnerPawn);
 		}
 	}
 
@@ -1622,7 +1622,7 @@ simulated function float GetPenetrationModifier(byte Level, class<KFDamageType> 
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyPenetration(InPenetration, DefaultPenetration, MyWMPRI.bSkillUpgrade[index], DamageType, OwnerPawn, bForce);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyPenetration(InPenetration, DefaultPenetration, MyWMPRI.GetSkillUpgrade(index), DamageType, OwnerPawn, bForce);
 		}
 	}
 
@@ -1676,7 +1676,7 @@ function float GetStunPowerModifier(optional class<DamageType> DamageType, optio
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyStunPower(InStunPower, DefaultStunPower, MyWMPRI.bSkillUpgrade[index], DamageType, HitZoneIdx);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyStunPower(InStunPower, DefaultStunPower, MyWMPRI.GetSkillUpgrade(index), DamageType, HitZoneIdx);
 		}
 	}
 
@@ -1730,7 +1730,7 @@ function float GetStumblePowerModifier(optional KFPawn KFP, optional class<KFDam
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyStumblePower(InStumblePower, DefaultStumblePower, MyWMPRI.bSkillUpgrade[index], KFP, DamageType, CooldownModifier, BodyPart, OwnerPawn);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyStumblePower(InStumblePower, DefaultStumblePower, MyWMPRI.GetSkillUpgrade(index), KFP, DamageType, CooldownModifier, BodyPart, OwnerPawn);
 		}
 	}
 
@@ -1784,7 +1784,7 @@ function float GetKnockdownPowerModifier(optional class<DamageType> DamageType, 
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyKnockdownPower(InKnockdownPower, DefaultKnockdownPower, MyWMPRI.bSkillUpgrade[index], OwnerPawn, DamageType, BodyPart, bIsSprinting);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyKnockdownPower(InKnockdownPower, DefaultKnockdownPower, MyWMPRI.GetSkillUpgrade(index), OwnerPawn, DamageType, BodyPart, bIsSprinting);
 		}
 	}
 
@@ -1801,7 +1801,7 @@ simulated function float GetSnareSpeedModifier()
 
 simulated function float GetSnarePowerModifier(optional class<DamageType> DamageType, optional byte HitZoneIdx)
 {
-	local byte i, index;
+	local int i, index;
 	local float DefaultSnarePower;
 	local float InSnarePower;
 
@@ -1834,7 +1834,7 @@ simulated function float GetSnarePowerModifier(optional class<DamageType> Damage
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifySnarePower(InSnarePower, DefaultSnarePower, MyWMPRI.bSkillUpgrade[index], DamageType, HitZoneIdx);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifySnarePower(InSnarePower, DefaultSnarePower, MyWMPRI.GetSkillUpgrade(index), DamageType, HitZoneIdx);
 		}
 	}
 
@@ -1888,14 +1888,14 @@ simulated function ModifyWeaponSwitchTime(out float ModifiedSwitchTime)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyWeaponSwitchTime(ModifiedSwitchTime, DefaultSwitchTime, MyWMPRI.bSkillUpgrade[index], KFW);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyWeaponSwitchTime(ModifiedSwitchTime, DefaultSwitchTime, MyWMPRI.GetSkillUpgrade(index), KFW);
 		}
 	}
 }
 
 function AddVampireHealth(KFPlayerController KFPC, class<DamageType> DT)
 {
-	local byte i, index;
+	local int i, index;
 	local int DefaultHealth;
 	local int InHealth;
 
@@ -1936,7 +1936,7 @@ function AddVampireHealth(KFPlayerController KFPC, class<DamageType> DT)
 			for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 			{
 				index = MyWMPRI.Purchase_SkillUpgrade[i];
-				MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.AddVampireHealth(InHealth, DefaultHealth, MyWMPRI.bSkillUpgrade[index], KFPC, DT);
+				MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.AddVampireHealth(InHealth, DefaultHealth, MyWMPRI.GetSkillUpgrade(index), KFPC, DT);
 			}
 		}
 
@@ -1946,7 +1946,7 @@ function AddVampireHealth(KFPlayerController KFPC, class<DamageType> DT)
 
 function bool CanSpreadNapalm()
 {
-	local byte i, index;
+	local int i, index;
 	local bool bCanSpreadNapalm;
 
 	bCanSpreadNapalm = False;
@@ -1979,7 +1979,7 @@ function bool CanSpreadNapalm()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bCanSpreadNapalm = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.CanSpreadNapalm(MyWMPRI.bSkillUpgrade[index], OwnerPawn);
+			bCanSpreadNapalm = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.CanSpreadNapalm(MyWMPRI.GetSkillUpgrade(index), OwnerPawn);
 			if (bCanSpreadNapalm)
 				return True;
 		}
@@ -1990,7 +1990,7 @@ function bool CanSpreadNapalm()
 
 simulated function bool CanKnockDownOnBump(KFPawn_Monster KFPM)
 {
-	local byte i, index;
+	local int i, index;
 	local bool bCanKnockDown;
 
 	bCanKnockDown = False;
@@ -2023,7 +2023,7 @@ simulated function bool CanKnockDownOnBump(KFPawn_Monster KFPM)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bCanKnockDown = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ShouldKnockDownOnBump(MyWMPRI.bSkillUpgrade[index], KFPM, OwnerPawn);
+			bCanKnockDown = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ShouldKnockDownOnBump(MyWMPRI.GetSkillUpgrade(index), KFPM, OwnerPawn);
 			if (bCanKnockDown)
 				return True;
 		}
@@ -2034,7 +2034,7 @@ simulated function bool CanKnockDownOnBump(KFPawn_Monster KFPM)
 
 simulated function bool ShouldNeverDud()
 {
-	local byte i, index;
+	local int i, index;
 	local bool bCouldExplode;
 	local KFWeapon KFW;
 	local KFInventoryManager KFIM;
@@ -2075,7 +2075,7 @@ simulated function bool ShouldNeverDud()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bCouldExplode = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ShouldNeverDud(MyWMPRI.bSkillUpgrade[index], KFW, OwnerPawn);
+			bCouldExplode = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ShouldNeverDud(MyWMPRI.GetSkillUpgrade(index), KFW, OwnerPawn);
 			if (bCouldExplode)
 				return True;
 		}
@@ -2086,7 +2086,7 @@ simulated function bool ShouldNeverDud()
 
 function bool CouldBeZedShrapnel(class<KFDamageType> KFDT)
 {
-	local byte i, index;
+	local int i, index;
 	local bool bCouldExplode;
 
 	if (MyWMPRI != None && MyWMGRI != None)
@@ -2117,7 +2117,7 @@ function bool CouldBeZedShrapnel(class<KFDamageType> KFDT)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bCouldExplode = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.CouldBeZedShrapnel(MyWMPRI.bSkillUpgrade[index], KFDT);
+			bCouldExplode = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.CouldBeZedShrapnel(MyWMPRI.GetSkillUpgrade(index), KFDT);
 			if (bCouldExplode)
 				return True;
 		}
@@ -2133,7 +2133,7 @@ function GameExplosion GetExplosionTemplate()
 
 simulated function bool ShouldShrapnel()
 {
-	local byte i, index;
+	local int i, index;
 	local bool bShouldExplode;
 
 	if (MyWMPRI != None && MyWMGRI != None)
@@ -2164,7 +2164,7 @@ simulated function bool ShouldShrapnel()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bShouldExplode = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ShouldShrapnel(MyWMPRI.bSkillUpgrade[index]);
+			bShouldExplode = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ShouldShrapnel(MyWMPRI.GetSkillUpgrade(index));
 			if (bShouldExplode)
 				return True;
 		}
@@ -2175,7 +2175,7 @@ simulated function bool ShouldShrapnel()
 
 simulated function bool IsRangeActive()
 {
-	local byte i, index;
+	local int i, index;
 	local bool bRangeActive;
 
 	if (MyWMPRI != None && MyWMGRI != None)
@@ -2203,7 +2203,7 @@ simulated function bool IsRangeActive()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bRangeActive = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.IsRangeActive(MyWMPRI.bSkillUpgrade[index], OwnerPawn);
+			bRangeActive = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.IsRangeActive(MyWMPRI.GetSkillUpgrade(index), OwnerPawn);
 			if (bRangeActive)
 			{
 				MyWMPRI.bExtraFireRange = True;
@@ -2217,7 +2217,7 @@ simulated function bool IsRangeActive()
 
 simulated function bool IsGroundFireActive()
 {
-	local byte i, index;
+	local int i, index;
 	local bool bSplashActive;
 
 	if (MyWMPRI != None && MyWMGRI != None)
@@ -2245,7 +2245,7 @@ simulated function bool IsGroundFireActive()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bSplashActive = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.IsGroundFireActive(MyWMPRI.bSkillUpgrade[index], OwnerPawn);
+			bSplashActive = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.IsGroundFireActive(MyWMPRI.GetSkillUpgrade(index), OwnerPawn);
 			if (bSplashActive)
 			{
 				MyWMPRI.bSplashActive = True;
@@ -2259,7 +2259,7 @@ simulated function bool IsGroundFireActive()
 
 simulated function bool GetUsingTactialReload(KFWeapon KFW)
 {
-	local byte i, index;
+	local int i, index;
 	local bool bTacticalReload;
 
 	if (MyWMPRI != None && MyWMGRI != None)
@@ -2281,7 +2281,7 @@ simulated function bool GetUsingTactialReload(KFWeapon KFW)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bTacticalReload = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetUsingTactialReload(MyWMPRI.bSkillUpgrade[index], KFW);
+			bTacticalReload = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetUsingTactialReload(MyWMPRI.GetSkillUpgrade(index), KFW);
 			if (bTacticalReload)
 				return True;
 		}
@@ -2320,7 +2320,7 @@ simulated function InitiateWeapon(KFWeapon KFW)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.InitiateWeapon(MyWMPRI.bSkillUpgrade[index], KFW, OwnerPawn);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.InitiateWeapon(MyWMPRI.GetSkillUpgrade(index), KFW, OwnerPawn);
 		}
 	}
 
@@ -2329,7 +2329,7 @@ simulated function InitiateWeapon(KFWeapon KFW)
 
 simulated function float GetSelfHealingSurgePct()
 {
-	local byte i, index;
+	local int i, index;
 	local float InHealingPct;
 
 	InHealingPct = 0.0f;
@@ -2354,7 +2354,7 @@ simulated function float GetSelfHealingSurgePct()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetSelfHealingSurgePct(InHealingPct, MyWMPRI.bSkillUpgrade[index]);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetSelfHealingSurgePct(InHealingPct, MyWMPRI.GetSkillUpgrade(index));
 		}
 	}
 
@@ -2400,7 +2400,7 @@ simulated event float GetIronSightSpeedModifier(KFWeapon KFW)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetIronSightSpeedModifier(InSpeed, DefaultSpeed, MyWMPRI.bSkillUpgrade[index]);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetIronSightSpeedModifier(InSpeed, DefaultSpeed, MyWMPRI.GetSkillUpgrade(index));
 		}
 	}
 
@@ -2441,7 +2441,7 @@ simulated event float GetCrouchSpeedModifier(KFWeapon KFW)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetCrouchSpeedModifier(InSpeed, DefaultSpeed, MyWMPRI.bSkillUpgrade[index]);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetCrouchSpeedModifier(InSpeed, DefaultSpeed, MyWMPRI.GetSkillUpgrade(index));
 		}
 	}
 
@@ -2450,7 +2450,7 @@ simulated event float GetCrouchSpeedModifier(KFWeapon KFW)
 
 function simulated SetSuccessfullParry()
 {
-	local byte i, index;
+	local int i, index;
 
 	if (MyWMPRI != None && MyWMGRI != None)
 	{
@@ -2472,14 +2472,14 @@ function simulated SetSuccessfullParry()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.SuccessfullParry(MyWMPRI.bSkillUpgrade[index], OwnerPawn);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.SuccessfullParry(MyWMPRI.GetSkillUpgrade(index), OwnerPawn);
 		}
 	}
 }
 
 function bool CanNotBeGrabbed()
 {
-	local byte i, index;
+	local int i, index;
 	local bool bNoGrab;
 
 	if (MyWMPRI != None && MyWMGRI != None)
@@ -2501,7 +2501,7 @@ function bool CanNotBeGrabbed()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bNoGrab = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.CanNotBeGrabbed(MyWMPRI.bSkillUpgrade[index], OwnerPawn);
+			bNoGrab = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.CanNotBeGrabbed(MyWMPRI.GetSkillUpgrade(index), OwnerPawn);
 			if (bNoGrab)
 				return True;
 		}
@@ -2512,7 +2512,7 @@ function bool CanNotBeGrabbed()
 
 simulated function bool ShouldRandSirenResist()
 {
-	local byte i, index;
+	local int i, index;
 	local bool bResist;
 
 	if (MyWMPRI != None && MyWMGRI != None)
@@ -2534,7 +2534,7 @@ simulated function bool ShouldRandSirenResist()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bResist = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ProjSirenResist(MyWMPRI.bSkillUpgrade[index], OwnerPawn);
+			bResist = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ProjSirenResist(MyWMPRI.GetSkillUpgrade(index), OwnerPawn);
 			if (bResist)
 				return True;
 		}
@@ -2545,7 +2545,7 @@ simulated function bool ShouldRandSirenResist()
 
 simulated function bool GetIsUberAmmoActive(KFWeapon KFW)
 {
-	local byte i, index;
+	local int i, index;
 	local bool bUber;
 
 	if (MyWMPRI != None && MyWMGRI != None)
@@ -2576,7 +2576,7 @@ simulated function bool GetIsUberAmmoActive(KFWeapon KFW)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bUber = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetIsUberAmmoActive(MyWMPRI.bSkillUpgrade[index], KFW, OwnerPawn);
+			bUber = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetIsUberAmmoActive(MyWMPRI.GetSkillUpgrade(index), KFW, OwnerPawn);
 			if (bUber)
 				return True;
 		}
@@ -2587,7 +2587,7 @@ simulated function bool GetIsUberAmmoActive(KFWeapon KFW)
 
 function HealingDamage(int HealAmount, KFPawn KFP, class<DamageType> DamageType)
 {
-	local byte i, index;
+	local int i, index;
 
 	if (MyWMPRI != None && MyWMGRI != None)
 	{
@@ -2609,14 +2609,14 @@ function HealingDamage(int HealAmount, KFPawn KFP, class<DamageType> DamageType)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.HealingDamage(MyWMPRI.bSkillUpgrade[index], HealAmount, KFP, OwnerPawn, DamageType);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.HealingDamage(MyWMPRI.GetSkillUpgrade(index), HealAmount, KFP, OwnerPawn, DamageType);
 		}
 	}
 }
 
 simulated event float GetZedTimeModifier(KFWeapon W)
 {
-	local byte i, index;
+	local int i, index;
 	local float InModifier;
 
 	InModifier = 0.0f;
@@ -2641,7 +2641,7 @@ simulated event float GetZedTimeModifier(KFWeapon W)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetZedTimeModifier(InModifier, MyWMPRI.bSkillUpgrade[index], W);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetZedTimeModifier(InModifier, MyWMPRI.GetSkillUpgrade(index), W);
 		}
 	}
 
@@ -2650,7 +2650,7 @@ simulated event float GetZedTimeModifier(KFWeapon W)
 
 simulated function bool CanSeeEnemyHealth()
 {
-	local byte i, index;
+	local int i, index;
 	local bool bCanSee;
 
 	if (MyWMPRI != None && MyWMGRI != None)
@@ -2672,7 +2672,7 @@ simulated function bool CanSeeEnemyHealth()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bCanSee = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.CanSeeEnemyHealth(MyWMPRI.bSkillUpgrade[index], OwnerPawn);
+			bCanSee = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.CanSeeEnemyHealth(MyWMPRI.GetSkillUpgrade(index), OwnerPawn);
 			if (bCanSee)
 				return True;
 		}
@@ -2683,7 +2683,7 @@ simulated function bool CanSeeEnemyHealth()
 
 simulated function bool IsCallOutActive()
 {
-	local byte i, index;
+	local int i, index;
 	local bool bCallOut;
 
 	if (MyWMPRI != None && MyWMGRI != None)
@@ -2713,7 +2713,7 @@ simulated function bool IsCallOutActive()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bCallOut = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.IsCallOutActive(MyWMPRI.bSkillUpgrade[index], OwnerPawn);
+			bCallOut = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.IsCallOutActive(MyWMPRI.GetSkillUpgrade(index), OwnerPawn);
 			if (bCallOut)
 			{
 				bCanSeeCloakedZeds = True;
@@ -2727,7 +2727,7 @@ simulated function bool IsCallOutActive()
 
 simulated function float GetCloakDetectionRange()
 {
-	local byte i, index;
+	local int i, index;
 	local float DefaultRange;
 	local float InRange;
 
@@ -2754,7 +2754,7 @@ simulated function float GetCloakDetectionRange()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyCloakDetectionRange(InRange, DefaultRange, MyWMPRI.bSkillUpgrade[index]);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyCloakDetectionRange(InRange, DefaultRange, MyWMPRI.GetSkillUpgrade(index));
 		}
 	}
 
@@ -2763,7 +2763,7 @@ simulated function float GetCloakDetectionRange()
 
 simulated function ReceiveLocalizedMessage(class<LocalMessage> Message, optional int Switch)
 {
-	local byte i, index;
+	local int i, index;
 
 	if (MyWMPRI != None && MyWMGRI != None)
 	{
@@ -2785,14 +2785,14 @@ simulated function ReceiveLocalizedMessage(class<LocalMessage> Message, optional
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ReceiveLocalizedMessage(MyWMPRI.bSkillUpgrade[index], Message, OwnerPawn, Switch);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ReceiveLocalizedMessage(MyWMPRI.GetSkillUpgrade(index), Message, OwnerPawn, Switch);
 		}
 	}
 }
 
 simulated function bool ShouldSacrifice()
 {
-	local byte i, index;
+	local int i, index;
 	local bool bSacrifice;
 
 	if (!bUsedSacrifice)
@@ -2816,7 +2816,7 @@ simulated function bool ShouldSacrifice()
 			for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 			{
 				index = MyWMPRI.Purchase_SkillUpgrade[i];
-				bSacrifice = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ShouldSacrifice(MyWMPRI.bSkillUpgrade[index], OwnerPawn);
+				bSacrifice = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ShouldSacrifice(MyWMPRI.GetSkillUpgrade(index), OwnerPawn);
 				if (bSacrifice)
 					return True;
 			}
@@ -2835,7 +2835,7 @@ function NotifyPerkSacrificeExploded()
 
 simulated function bool DoorShouldNuke()
 {
-	local byte i, index;
+	local int i, index;
 	local bool bTrap;
 
 	if (MyWMPRI != None && MyWMGRI != None)
@@ -2857,7 +2857,7 @@ simulated function bool DoorShouldNuke()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bTrap = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.DoorShouldNuke(MyWMPRI.bSkillUpgrade[index], OwnerPawn);
+			bTrap = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.DoorShouldNuke(MyWMPRI.GetSkillUpgrade(index), OwnerPawn);
 			if (bTrap)
 				return True;
 		}
@@ -2868,7 +2868,7 @@ simulated function bool DoorShouldNuke()
 
 simulated function bool CanExplosiveWeld()
 {
-	local byte i, index;
+	local int i, index;
 	local bool bTrap;
 
 	if (MyWMPRI != None && MyWMGRI != None)
@@ -2890,7 +2890,7 @@ simulated function bool CanExplosiveWeld()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bTrap = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.CanExplosiveWeld(MyWMPRI.bSkillUpgrade[index], OwnerPawn);
+			bTrap = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.CanExplosiveWeld(MyWMPRI.GetSkillUpgrade(index), OwnerPawn);
 			if (bTrap)
 				return True;
 		}
@@ -3099,7 +3099,7 @@ simulated function bool CanInteract(KFPawn_Human MyKFPH)
 
 simulated function bool IsSupplierActive()
 {
-	local byte i, index;
+	local int i, index;
 	local bool bActive;
 
 	if (MyWMPRI != None && MyWMGRI != None)
@@ -3121,7 +3121,7 @@ simulated function bool IsSupplierActive()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bActive = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.IsSupplierActive(MyWMPRI.bSkillUpgrade[index]);
+			bActive = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.IsSupplierActive(MyWMPRI.GetSkillUpgrade(index));
 			if (bActive)
 				return True;
 		}
@@ -3132,7 +3132,7 @@ simulated function bool IsSupplierActive()
 
 simulated function SupplierModifiers(out float PrimaryAmmoPercentage, out float SecondaryAmmoPercentage, out float ArmorPercentage, out int GrenadeAmount)
 {
-	local byte i, index;
+	local int i, index;
 
 	PrimaryAmmoPercentage = 0.0f;
 	SecondaryAmmoPercentage = 0.0f;
@@ -3154,7 +3154,7 @@ simulated function SupplierModifiers(out float PrimaryAmmoPercentage, out float 
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.SupplierModifiers(MyWMPRI.bSkillUpgrade[index], PrimaryAmmoPercentage, SecondaryAmmoPercentage, ArmorPercentage, GrenadeAmount);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.SupplierModifiers(MyWMPRI.GetSkillUpgrade(index), PrimaryAmmoPercentage, SecondaryAmmoPercentage, ArmorPercentage, GrenadeAmount);
 		}
 	}
 
@@ -3166,7 +3166,7 @@ simulated function SupplierModifiers(out float PrimaryAmmoPercentage, out float 
 
 function WaveEnd(KFPlayerController KFPC)
 {
-	local byte i, index;
+	local int i, index;
 
 	if (MyWMPRI != None && MyWMGRI != None)
 	{
@@ -3183,14 +3183,14 @@ function WaveEnd(KFPlayerController KFPC)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.WaveEnd(MyWMPRI.bSkillUpgrade[index], KFPC);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.WaveEnd(MyWMPRI.GetSkillUpgrade(index), KFPC);
 		}
 	}
 }
 
 simulated function DrawSpecialPerkHUD(Canvas C)
 {
-	local byte i, index;
+	local int i, index;
 	local KFPawn_Monster KFPM;
 	local vector ViewLocation, ViewDir;
 	local float DetectionRangeSq, ThisDot;
@@ -3258,7 +3258,7 @@ simulated function DrawSpecialPerkHUD(Canvas C)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.DrawOnHUD(MyWMPRI.bSkillUpgrade[index], C, OwnerPawn);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.DrawOnHUD(MyWMPRI.GetSkillUpgrade(index), C, OwnerPawn);
 		}
 	}
 }
@@ -3302,7 +3302,7 @@ simulated function DrawZedHealthbar(Canvas C, KFPawn_Monster KFPM, vector Camera
 // healing darts powerup function
 simulated function byte GetHealingDamageBoost()
 {
-	local byte i, index;
+	local int i, index;
 	local byte InHealingDamageBoost;
 
 	InHealingDamageBoost = 0;
@@ -3322,7 +3322,7 @@ simulated function byte GetHealingDamageBoost()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetHealingDamageBoost(InHealingDamageBoost, MyWMPRI.bSkillUpgrade[index]);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetHealingDamageBoost(InHealingDamageBoost, MyWMPRI.GetSkillUpgrade(index));
 		}
 	}
 
@@ -3331,7 +3331,7 @@ simulated function byte GetHealingDamageBoost()
 
 simulated function byte GetMaxHealingDamageBoost()
 {
-	local byte i, index;
+	local int i, index;
 	local byte InMaxHealingDamageBoost;
 
 	InMaxHealingDamageBoost = 0;
@@ -3351,7 +3351,7 @@ simulated function byte GetMaxHealingDamageBoost()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetMaxHealingDamageBoost(InMaxHealingDamageBoost, MyWMPRI.bSkillUpgrade[index]);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetMaxHealingDamageBoost(InMaxHealingDamageBoost, MyWMPRI.GetSkillUpgrade(index));
 		}
 	}
 
@@ -3360,7 +3360,7 @@ simulated function byte GetMaxHealingDamageBoost()
 
 simulated function byte GetHealingShield()
 {
-	local byte i, index;
+	local int i, index;
 	local byte InHealingShield;
 
 	InHealingShield = 0;
@@ -3380,7 +3380,7 @@ simulated function byte GetHealingShield()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetHealingShield(InHealingShield, MyWMPRI.bSkillUpgrade[index]);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetHealingShield(InHealingShield, MyWMPRI.GetSkillUpgrade(index));
 		}
 	}
 
@@ -3389,7 +3389,7 @@ simulated function byte GetHealingShield()
 
 simulated function byte GetMaxHealingShield()
 {
-	local byte i, index;
+	local int i, index;
 	local byte InMaxHealingShield;
 
 	InMaxHealingShield = 0;
@@ -3409,7 +3409,7 @@ simulated function byte GetMaxHealingShield()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetMaxHealingShield(InMaxHealingShield, MyWMPRI.bSkillUpgrade[index]);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetMaxHealingShield(InMaxHealingShield, MyWMPRI.GetSkillUpgrade(index));
 		}
 	}
 
@@ -3418,7 +3418,7 @@ simulated function byte GetMaxHealingShield()
 
 simulated function bool HasNightVision()
 {
-	local byte i, index;
+	local int i, index;
 	local bool bActive;
 
 	if (MyWMPRI != None && MyWMGRI != None)
@@ -3440,7 +3440,7 @@ simulated function bool HasNightVision()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bActive = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.HasNightVision(MyWMPRI.bSkillUpgrade[index]);
+			bActive = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.HasNightVision(MyWMPRI.GetSkillUpgrade(index));
 			if (bActive)
 				return True;
 		}
@@ -3451,7 +3451,7 @@ simulated function bool HasNightVision()
 
 simulated function class<EmitterCameraLensEffectBase> GetPerkLensEffect(class<KFDamageType> DmgType)
 {
-	local byte i, index;
+	local int i, index;
 	local class<EmitterCameraLensEffectBase> CamEffect;
 
 	CamEffect = DmgType.default.CameraLensEffectTemplate;
@@ -3471,7 +3471,7 @@ simulated function class<EmitterCameraLensEffectBase> GetPerkLensEffect(class<KF
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetPerkLensEffect(CamEffect, DmgType, MyWMPRI.bSkillUpgrade[index]);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetPerkLensEffect(CamEffect, DmgType, MyWMPRI.GetSkillUpgrade(index));
 		}
 	}
 
@@ -3480,7 +3480,7 @@ simulated function class<EmitterCameraLensEffectBase> GetPerkLensEffect(class<KF
 
 function bool IsUnAffectedByZedTime()
 {
-	local byte i, index;
+	local int i, index;
 	local bool bActive;
 
 	if (MyWMPRI != None && MyWMGRI != None)
@@ -3508,7 +3508,7 @@ function bool IsUnAffectedByZedTime()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bActive = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.IsUnAffectedByZedTime(MyWMPRI.bSkillUpgrade[index], OwnerPawn);
+			bActive = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.IsUnAffectedByZedTime(MyWMPRI.GetSkillUpgrade(index), OwnerPawn);
 			if (bActive)
 			{
 				OwnerPawn.bMovesFastInZedTime = True;
@@ -3522,7 +3522,7 @@ function bool IsUnAffectedByZedTime()
 
 simulated function ApplyBatteryRechargeRate()
 {
-	local byte i, index;
+	local int i, index;
 	local float InRechargeRateFL, InRechargeRateNVG;
 
 	if (CheckOwnerPawn())
@@ -3545,7 +3545,7 @@ simulated function ApplyBatteryRechargeRate()
 			for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 			{
 				index = MyWMPRI.Purchase_SkillUpgrade[i];
-				MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetBatteryRateScale(InRechargeRateFL, InRechargeRateNVG, MyWMPRI.bSkillUpgrade[index], OwnerPawn);
+				MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.GetBatteryRateScale(InRechargeRateFL, InRechargeRateNVG, MyWMPRI.GetSkillUpgrade(index), OwnerPawn);
 			}
 		}
 
@@ -3562,7 +3562,7 @@ simulated function ApplyBatteryRechargeRate()
 
 simulated function bool ImmuneToCameraShake()
 {
-	local byte i, index;
+	local int i, index;
 	local bool bActive;
 
 	if (MyWMPRI != None && MyWMGRI != None)
@@ -3584,7 +3584,7 @@ simulated function bool ImmuneToCameraShake()
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bActive = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ImmuneToCameraShake(MyWMPRI.bSkillUpgrade[index], OwnerPawn);
+			bActive = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ImmuneToCameraShake(MyWMPRI.GetSkillUpgrade(index), OwnerPawn);
 			if (bActive)
 				return True;
 		}
@@ -3621,7 +3621,7 @@ simulated function ModifyMaxDeployed(out int CurrentMaxDeployed, KFWeapon KFW)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyMaxDeployed(CurrentMaxDeployed, DefaultMaxDeployed, MyWMPRI.bSkillUpgrade[index], KFW);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ModifyMaxDeployed(CurrentMaxDeployed, DefaultMaxDeployed, MyWMPRI.GetSkillUpgrade(index), KFW);
 		}
 	}
 }
@@ -3660,7 +3660,7 @@ simulated function bool CanSeeCloaked(KFWeapon KFW)
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bSeeCloaked = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.CanSeeCloaked(MyWMPRI.bSkillUpgrade[index], KFW, OwnerPawn);
+			bSeeCloaked = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.CanSeeCloaked(MyWMPRI.GetSkillUpgrade(index), KFW, OwnerPawn);
 			if (bSeeCloaked)
 				return True;
 		}
@@ -3722,7 +3722,7 @@ simulated function bool ExtensionFuncBoolean(string Identifier, optional int Inp
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			bActive = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ExtensionFuncBoolean(MyWMPRI.bSkillUpgrade[index], Identifier, MyKFW, OwnerPawn, InputInt, InputFloat, InputClassName, InputObject1, InputObject2, InputObject3);
+			bActive = MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ExtensionFuncBoolean(MyWMPRI.GetSkillUpgrade(index), Identifier, MyKFW, OwnerPawn, InputInt, InputFloat, InputClassName, InputObject1, InputObject2, InputObject3);
 			if (bActive)
 				return True;
 		}
@@ -3768,7 +3768,7 @@ simulated function int ExtensionFuncInteger(int DefaultValueIn, string Identifie
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ExtensionFuncInteger(InValue, DefaultValue, MyWMPRI.bSkillUpgrade[index], Identifier, MyKFW, OwnerPawn, InputInt, InputFloat, InputClassName, InputObject1, InputObject2, InputObject3);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ExtensionFuncInteger(InValue, DefaultValue, MyWMPRI.GetSkillUpgrade(index), Identifier, MyKFW, OwnerPawn, InputInt, InputFloat, InputClassName, InputObject1, InputObject2, InputObject3);
 		}
 	}
 
@@ -3812,7 +3812,7 @@ simulated function float ExtensionFuncFloat(float DefaultValueIn, string Identif
 		for (i = 0; i < MyWMPRI.Purchase_SkillUpgrade.Length; ++i)
 		{
 			index = MyWMPRI.Purchase_SkillUpgrade[i];
-			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ExtensionFuncFloat(InValue, DefaultValue, MyWMPRI.bSkillUpgrade[index], Identifier, MyKFW, OwnerPawn, InputInt, InputFloat, InputClassName, InputObject1, InputObject2, InputObject3);
+			MyWMGRI.SkillUpgradesList[index].SkillUpgrade.static.ExtensionFuncFloat(InValue, DefaultValue, MyWMPRI.GetSkillUpgrade(index), Identifier, MyKFW, OwnerPawn, InputInt, InputFloat, InputClassName, InputObject1, InputObject2, InputObject3);
 		}
 	}
 

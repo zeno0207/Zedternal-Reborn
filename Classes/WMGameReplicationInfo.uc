@@ -153,7 +153,10 @@ var PerkUpgradeRepStruct PerkUpgradesRepArray[255];
 var byte bDeluxeSkillUnlock[255];
 var int SkillUpgDeluxePrice;
 var int SkillUpgPrice;
-var SkillUpgradeRepStruct SkillUpgradesRepArray[255];
+var SkillUpgradeRepStruct SkillUpgradesRepArray_A[255];
+var SkillUpgradeRepStruct SkillUpgradesRepArray_B[255];
+var SkillUpgradeRepStruct SkillUpgradesRepArray_C[255];
+var SkillUpgradeRepStruct SkillUpgradesRepArray_D[255];
 
 //Replicated Skill Reroll
 var bool bAllowSkillReroll;
@@ -228,7 +231,10 @@ var bool bEquipmentUpgradesSynced;
 var bool bGrenadeItemsSynced;
 var bool bPerkUpgradesSynced;
 var bool bSidearmItemsSynced;
-var bool bSkillUpgradesSynced;
+var bool bSkillUpgradesSynced_A;
+var bool bSkillUpgradesSynced_B;
+var bool bSkillUpgradesSynced_C;
+var bool bSkillUpgradesSynced_D;
 var bool bSpecialWavesSynced;
 var bool bStartingWeaponsSynced;
 var bool bTraderWeaponsSynced_A;
@@ -466,7 +472,10 @@ replication
 		SidearmsRepArray,
 		SkillUpgDeluxePrice,
 		SkillUpgPrice,
-		SkillUpgradesRepArray,
+		SkillUpgradesRepArray_A,
+		SkillUpgradesRepArray_B,
+		SkillUpgradesRepArray_C,
+		SkillUpgradesRepArray_D,
 		SpecialWaveID,
 		SpecialWavesRepArray,
 		StartingWeaponsRepArray,
@@ -591,8 +600,17 @@ simulated function ProcessAllSyncData()
 		SyncAllPerkUpgrades();
 
 	//Sync Skill Upgrades
-	if (!bSkillUpgradesSynced)
-		SyncAllSkillUpgrades();
+	if (!bSkillUpgradesSynced_A)
+		SyncAllSkillUpgrades(SkillUpgradesRepArray_A, 0);
+
+	if (!bSkillUpgradesSynced_B)
+		SyncAllSkillUpgrades(SkillUpgradesRepArray_B, 1);
+
+	if (!bSkillUpgradesSynced_C)
+		SyncAllSkillUpgrades(SkillUpgradesRepArray_C, 2);
+
+	if (!bSkillUpgradesSynced_D)
+		SyncAllSkillUpgrades(SkillUpgradesRepArray_D, 3);
 
 	//Sync Weapon Upgrades
 	if (!bWeaponUpgradesSynced)
@@ -620,7 +638,8 @@ simulated function ProcessAllSyncData()
 
 	if (bAllowedWeaponsSynced_A && bAllowedWeaponsSynced_B && bTraderWeaponsSynced_A
 		&& bTraderWeaponsSynced_B && bStartingWeaponsSynced && bPerkUpgradesSynced
-		&& bSkillUpgradesSynced && bWeaponUpgradesSynced && bEquipmentUpgradesSynced
+		&& bSkillUpgradesSynced_A && bSkillUpgradesSynced_B && bSkillUpgradesSynced_C
+		&& bSkillUpgradesSynced_D && bWeaponUpgradesSynced && bEquipmentUpgradesSynced
 		&& bGrenadeItemsSynced && bSpecialWavesSynced && bZedBuffsSynced)
 	{
 		bAllDataSynced = True;
@@ -783,9 +802,9 @@ simulated function SyncAllPerkUpgrades()
 		bPerkUpgradesSynced = True;
 }
 
-simulated function SyncAllSkillUpgrades()
+simulated function SyncAllSkillUpgrades(const out SkillUpgradeRepStruct SkillUpgradesRepArray[255], int indexMultiplier)
 {
-	local int i;
+	local int i, indexOffset;
 
 	if (NumberOfSkillUpgrades == INDEX_NONE)
 		return;
@@ -795,22 +814,34 @@ simulated function SyncAllSkillUpgrades()
 
 	if (NumberOfSkillUpgrades > 0)
 	{
+		indexOffset = 255 * indexMultiplier;
+
 		for (i = 0; i < 255; ++i)
 		{
 			if (!SkillUpgradesRepArray[i].bValid)
 				break; //base case
 
-			if (!SkillUpgradesList[i].bDone)
+			if (!SkillUpgradesList[i + indexOffset].bDone)
 			{
-				SkillUpgradesList[i].SkillUpgrade = class<WMUpgrade_Skill>(DynamicLoadObject(SkillUpgradesRepArray[i].SkillPathName, class'Class'));
-				SkillUpgradesList[i].PerkPathName = SkillUpgradesRepArray[i].PerkPathName;
-				SkillUpgradesList[i].bDone = True;
+				SkillUpgradesList[i + indexOffset].SkillUpgrade = class<WMUpgrade_Skill>(DynamicLoadObject(SkillUpgradesRepArray[i].SkillPathName, class'Class'));
+				SkillUpgradesList[i + indexOffset].PerkPathName = SkillUpgradesRepArray[i].PerkPathName;
+				SkillUpgradesList[i + indexOffset].bDone = True;
 			}
 		}
 	}
 
-	if (i == NumberOfSkillUpgrades)
-		bSkillUpgradesSynced = True;
+
+	if (indexMultiplier == 0 && (i == NumberOfSkillUpgrades || i == 255))
+		bSkillUpgradesSynced_A = True;
+
+	if (indexMultiplier == 1 && ((i + indexOffset) == NumberOfSkillUpgrades || 255 >= NumberOfSkillUpgrades))
+		bSkillUpgradesSynced_B = True;
+
+	if (indexMultiplier == 2 && ((i + indexOffset) == NumberOfSkillUpgrades || 510 >= NumberOfSkillUpgrades))
+		bSkillUpgradesSynced_C = True;
+
+	if (indexMultiplier == 3 && ((i + indexOffset) == NumberOfSkillUpgrades || 765 >= NumberOfSkillUpgrades))
+		bSkillUpgradesSynced_D = True;
 }
 
 simulated function SyncAllWeaponUpgrades()

@@ -186,9 +186,8 @@ function Callback_Equip(int ItemDefinition)
 	else if (CurrentFilterIndex == 1) //Skill Upgrades
 	{
 		Index = SkillUPGIndex[Index];
-		lvl = WMPRI.bSkillUpgrade[Index];
 
-		if (WMPRI.bSkillDeluxe[Index] == 1)
+		if (WMPRI.IsSkillDeluxe(Index))
 			UPGPrice = WMGRI.SkillUpgDeluxePrice;
 		else
 			UPGPrice = WMGRI.SkillUpgPrice;
@@ -198,9 +197,9 @@ function Callback_Equip(int ItemDefinition)
 			OriginalDosh = WMPRI.Score;
 			if (WMPC.WorldInfo.NetMode != NM_Standalone)
 				WMPRI.SyncCompleted = False;
-			WMPC.BuySkillUpgrade(Index, GetPerkRelatedIndex(Index), UPGPrice, WMPRI.bSkillDeluxe[Index] + 1);
+			WMPC.BuySkillUpgrade(Index, GetPerkRelatedIndex(Index), UPGPrice);
 			if (WMPC.WorldInfo.NetMode != NM_Standalone)
-				WMPRI.bSkillUpgrade[Index] = lvl + WMPRI.bSkillDeluxe[Index] + 1;
+				WMPRI.PurchaseSkillUpgrade(Index);
 			WMPRI.Score = OriginalDosh - UPGPrice;
 			if (WMPRI.Purchase_SkillUpgrade.Find(Index) == INDEX_NONE)
 				WMPRI.Purchase_SkillUpgrade.AddItem(Index);
@@ -403,9 +402,8 @@ function CallBack_ItemDetailsClicked(int ItemDefinition)
 	else if (CurrentFilterIndex == 1) //Skill Upgrades
 	{
 		Index = SkillUPGIndex[Index];
-		lvl = WMPRI.bSkillUpgrade[Index];
 
-		if (WMPRI.bSkillDeluxe[Index] == 1)
+		if (WMPRI.IsSkillDeluxe(Index))
 			price = WMGRI.SkillUpgDeluxePrice;
 		else
 			price = WMGRI.SkillUpgPrice;
@@ -452,17 +450,16 @@ function Callback_RarityTypeFilterChanged(int NewFilterIndex)
 function Callback_RecycleItem(int ItemDefinition)
 {
 	local string STitle, SDescription;
-	local int RerollCost, SkillRefund, TotalCost;
-	local byte b, Count;
+	local int i, Count, RerollCost, SkillRefund, TotalCost;
 
 	RerollCost = WMGRI.RerollCost * (WMGRI.RerollMultiplier ** WMPRI.RerollCounter);
 	SkillRefund = 0;
 	Count = 0;
-	foreach WMPRI.Purchase_SkillUpgrade(b)
+	foreach WMPRI.Purchase_SkillUpgrade(i)
 	{
-		if (WMGRI.SkillUpgradesList[b].PerkPathName ~= PathName(WMGRI.PerkUpgradesList[PerkUPGIndex[ItemDefinition]].PerkUpgrade))
+		if (WMGRI.SkillUpgradesList[i].PerkPathName ~= PathName(WMGRI.PerkUpgradesList[PerkUPGIndex[ItemDefinition]].PerkUpgrade))
 		{
-			if (WMPRI.bSkillDeluxe[b] > 0)
+			if (WMPRI.IsSkillDeluxe(i))
 				SkillRefund += Round(float(WMGRI.SkillUpgDeluxePrice) * WMGRI.RerollSkillSellPercent);
 			else
 				SkillRefund += Round(float(WMGRI.SkillUpgPrice) * WMGRI.RerollSkillSellPercent);
@@ -680,16 +677,16 @@ function string GetPerkDescription(int index, int lvl)
 	{
 		if (WMGRI.SkillUpgradesList[i].PerkPathName ~= PathName(WMGRI.PerkUpgradesList[index].PerkUpgrade))
 		{
-			if (WMPRI.bSkillUpgrade[i] != 0)
+			if (WMPRI.GetSkillUpgrade(i) > 0)
 			{
-				if (WMPRI.bSkillDeluxe[i] != 0)
+				if (WMPRI.IsSkillDeluxe(i))
 					TextColor = "b346ea";
 				else
 					TextColor = "05b6ca";
 			}
-			else if (WMPRI.bSkillUnlocked[i] != 0)
+			else if (WMPRI.IsSkillUnlocked(i))
 			{
-				if (WMPRI.bSkillDeluxe[i] != 0)
+				if (WMPRI.IsSkillDeluxe(i))
 					TextColor = "f0cff7";
 				else
 					TextColor = "eaeff7";
@@ -722,7 +719,7 @@ function UnlockRandomSkill(string PerkPathName, bool bShouldBeDeluxe)
 
 	for (i = 0; i < WMGRI.SkillUpgradesList.Length; ++i)
 	{
-		if (WMGRI.SkillUpgradesList[i].PerkPathName ~= PerkPathName && WMPRI.bSkillUnlocked[i] == 0)
+		if (WMGRI.SkillUpgradesList[i].PerkPathName ~= PerkPathName && WMPRI.IsSkillUnlocked(i))
 			AvailableIndex.AddItem(i);
 	}
 
@@ -730,10 +727,7 @@ function UnlockRandomSkill(string PerkPathName, bool bShouldBeDeluxe)
 	{
 		choice = Rand(AvailableIndex.Length);
 		WMPC.UnlockSkill(AvailableIndex[choice], bShouldBeDeluxe);
-
-		WMPRI.bSkillUnlocked[AvailableIndex[choice]] = 1;
-		if (bShouldBeDeluxe)
-			WMPRI.bSkillDeluxe[AvailableIndex[choice]] = 1;
+		WMPRI.UnlockSkillUpgrade(AvailableIndex[choice], bShouldBeDeluxe);
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -744,7 +738,7 @@ function BuildSkillUpgradeList(out GFxObject ItemArray)
 {
 	local bool bPurchased;
 	local GFxObject ItemObject;
-	local int i, x, lvl, TempPrice;
+	local int i, x, TempPrice;
 	local string S;
 
 	SkillUPGIndex.Length = 0;
@@ -752,15 +746,10 @@ function BuildSkillUpgradeList(out GFxObject ItemArray)
 
 	for (i = 0; i < WMGRI.SkillUpgradesList.Length; ++i)
 	{
-		if (WMPRI.bSkillUnlocked[i] == 1)
+		if (WMPRI.IsSkillUnlocked(i))
 		{
-			lvl = WMPRI.bSkillUpgrade[i];
-
 			// Is it fully bought?
-			if (lvl == 0)
-				bPurchased = False;
-			else
-				bPurchased = True;
+			bPurchased = WMPRI.GetSkillUpgrade(i) > 0;
 
 			// Create info arch
 			if ((CurrentUpgradeFilter == EWMInv_All) || (CurrentUpgradeFilter == EWMInv_Available && !bPurchased) || (CurrentUpgradeFilter == EWMInv_Purchased && bPurchased))
@@ -772,7 +761,7 @@ function BuildSkillUpgradeList(out GFxObject ItemArray)
 				else
 					S = WMGRI.SkillUpgradesList[i].SkillUpgrade.default.UpgradeName;
 
-				if (WMPRI.bSkillDeluxe[i] == 1)
+				if (WMPRI.IsSkillDeluxe(i))
 				{
 					ItemObject.SetString("label", S @default.SkillDeluxeString);
 					if (WMGRI.SkillUpgradesList[i].SkillUpgrade.default.bShouldLocalize)
@@ -1198,9 +1187,7 @@ function ConfirmSkillReroll()
 		{
 			if (RerollPerkPathName ~= WMGRI.SkillUpgradesList[i].PerkPathName)
 			{
-				WMPRI.bSkillUpgrade[i] = 0;
-				WMPRI.bSkillUnlocked[i] = 0;
-				WMPRI.bSkillDeluxe[i] = 0;
+				WMPRI.ResetSkillUpgrade(i);
 
 				if (WMPRI.Purchase_SkillUpgrade.Find(i) != INDEX_NONE)
 				{

@@ -2604,7 +2604,7 @@ function RepGameInfoHighPriority()
 	WMGRI.NumberOfTraderWeapons = Min(510, TraderItems.SaleItems.Length);
 	WMGRI.NumberOfPerkUpgrades = Min(255, ConfigData.ValidPerkUpgrades.Length);
 	WMGRI.NumberOfStartingWeapons = Min(255, StartingWeaponPath.Length);
-	WMGRI.NumberOfSkillUpgrades = Min(255, ConfigData.ValidSkillUpgrades.Length);
+	WMGRI.NumberOfSkillUpgrades = Min(1020, ConfigData.ValidSkillUpgrades.Length);
 	WMGRI.NumberOfWeaponUpgrades = Min(255, ConfigData.ValidWeaponUpgrades.Length);
 	WMGRI.NumberOfWeaponUpgradeSlots = Min(`MAXWEAPONUPGRADES, WMGRI.WeaponUpgradeSlotsList.Length);
 	WMGRI.NumberOfEquipmentUpgrades = Min(255, ConfigData.ValidEquipmentUpgrades.Length);
@@ -2774,15 +2774,48 @@ function RepGameInfoLowPriority()
 	}
 
 	//Skill Upgrades
-	for (b = 0; b < Min(255, ConfigData.ValidSkillUpgrades.Length); ++b)
+	for (i = 0; i < Min(255, ConfigData.ValidSkillUpgrades.Length); ++i)
 	{
-		WMGRI.SkillUpgradesRepArray[b].SkillPathName = ConfigData.ValidSkillUpgrades[b].SkillPath;
-		WMGRI.SkillUpgradesRepArray[b].PerkPathName = ConfigData.ValidSkillUpgrades[b].PerkPath;
-		WMGRI.SkillUpgradesRepArray[b].bValid = True;
+		WMGRI.SkillUpgradesRepArray_A[i].SkillPathName = ConfigData.ValidSkillUpgrades[i].SkillPath;
+		WMGRI.SkillUpgradesRepArray_A[i].PerkPathName = ConfigData.ValidSkillUpgrades[i].PerkPath;
+		WMGRI.SkillUpgradesRepArray_A[i].bValid = True;
 
-		WMGRI.SkillUpgradesList[b].SkillUpgrade = ConfigData.SkillUpgObjects[b];
-		WMGRI.SkillUpgradesList[b].PerkPathName = ConfigData.ValidSkillUpgrades[b].PerkPath;
-		WMGRI.SkillUpgradesList[b].bDone = True;
+		WMGRI.SkillUpgradesList[i].SkillUpgrade = ConfigData.SkillUpgObjects[i];
+		WMGRI.SkillUpgradesList[i].PerkPathName = ConfigData.ValidSkillUpgrades[i].PerkPath;
+		WMGRI.SkillUpgradesList[i].bDone = True;
+	}
+
+	for (i = 0; i < Min(255, ConfigData.ValidSkillUpgrades.Length - 255); ++i)
+	{
+		WMGRI.SkillUpgradesRepArray_B[i].SkillPathName = ConfigData.ValidSkillUpgrades[i + 255].SkillPath;
+		WMGRI.SkillUpgradesRepArray_B[i].PerkPathName = ConfigData.ValidSkillUpgrades[i + 255].PerkPath;
+		WMGRI.SkillUpgradesRepArray_B[i].bValid = True;
+
+		WMGRI.SkillUpgradesList[i + 255].SkillUpgrade = ConfigData.SkillUpgObjects[i + 255];
+		WMGRI.SkillUpgradesList[i + 255].PerkPathName = ConfigData.ValidSkillUpgrades[i + 255].PerkPath;
+		WMGRI.SkillUpgradesList[i + 255].bDone = True;
+	}
+
+	for (i = 0; i < Min(255, ConfigData.ValidSkillUpgrades.Length - 510); ++i)
+	{
+		WMGRI.SkillUpgradesRepArray_C[i].SkillPathName = ConfigData.ValidSkillUpgrades[i + 510].SkillPath;
+		WMGRI.SkillUpgradesRepArray_C[i].PerkPathName = ConfigData.ValidSkillUpgrades[i + 510].PerkPath;
+		WMGRI.SkillUpgradesRepArray_C[i].bValid = True;
+
+		WMGRI.SkillUpgradesList[i + 510].SkillUpgrade = ConfigData.SkillUpgObjects[i + 510];
+		WMGRI.SkillUpgradesList[i + 510].PerkPathName = ConfigData.ValidSkillUpgrades[i + 510].PerkPath;
+		WMGRI.SkillUpgradesList[i + 510].bDone = True;
+	}
+
+	for (i = 0; i < Min(255, ConfigData.ValidSkillUpgrades.Length - 765); ++i)
+	{
+		WMGRI.SkillUpgradesRepArray_D[i].SkillPathName = ConfigData.ValidSkillUpgrades[i + 765].SkillPath;
+		WMGRI.SkillUpgradesRepArray_D[i].PerkPathName = ConfigData.ValidSkillUpgrades[i + 765].PerkPath;
+		WMGRI.SkillUpgradesRepArray_D[i].bValid = True;
+
+		WMGRI.SkillUpgradesList[i + 765].SkillUpgrade = ConfigData.SkillUpgObjects[i + 765];
+		WMGRI.SkillUpgradesList[i + 765].PerkPathName = ConfigData.ValidSkillUpgrades[i + 765].PerkPath;
+		WMGRI.SkillUpgradesList[i + 765].bDone = True;
 	}
 
 	//Equipment Upgrades
