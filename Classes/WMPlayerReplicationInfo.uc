@@ -43,7 +43,7 @@ var repnotify byte bEquipmentUpgrade[255];
 var byte bSidearmItem[255];
 
 // Current "perk" : perk's icon reflects where player spend his dosh (perk upgrades and skill upgrades)
-var repnotify byte PerkIconIndex;
+var repnotify int PerkIconIndex;
 var texture2D CurrentIconToDisplay;
 var int MaxDoshSpent;
 var array<int> DoshSpentOnPerk;
@@ -265,7 +265,7 @@ simulated function ClientUpdateCurrentIconToDisplay()
 
 	WMGRI = WMGameReplicationInfo(WorldInfo.GRI);
 
-	if (WMGRI != None && PerkIconIndex < WMGRI.PerkUpgradesList.Length)
+	if (WMGRI != None && PerkIconIndex != INDEX_NONE)
 		CurrentIconToDisplay = WMGRI.PerkUpgradesList[PerkIconIndex].PerkUpgrade.static.GetUpgradeIcon(bPerkUpgrade[PerkIconIndex] - 1);
 }
 
@@ -283,7 +283,7 @@ function UpdateCurrentIconToDisplay(int lastBoughtIndex, int doshSpent, int lvl)
 	if (WMGRI != None)
 	{
 		// initialize doshRecord if needed
-		if (PerkIconIndex == 254)
+		if (PerkIconIndex == INDEX_NONE)
 		{
 			MaxDoshSpent = 0;
 			for (i = 0; i < WMGRI.PerkUpgradesList.length; ++i)
@@ -296,7 +296,7 @@ function UpdateCurrentIconToDisplay(int lastBoughtIndex, int doshSpent, int lvl)
 		DoshSpentOnPerk[lastBoughtIndex] += doshSpent;
 
 		// check and update player's perk icon index
-		if (PerkIconIndex == 254 || DoshSpentOnPerk[lastBoughtIndex] >= MaxDoshSpent)
+		if (PerkIconIndex == INDEX_NONE || DoshSpentOnPerk[lastBoughtIndex] >= MaxDoshSpent)
 		{
 			CurrentIconToDisplay = WMGRI.PerkUpgradesList[lastBoughtIndex].PerkUpgrade.static.GetUpgradeIcon(bPerkUpgrade[lastBoughtIndex] - 1);
 			MaxDoshSpent = DoshSpentOnPerk[lastBoughtIndex];
@@ -362,7 +362,7 @@ function RecalculatePlayerLevel()
 	if (WMGRI != None)
 	{
 		PlayerLevel = 0;
-		PerkIconIndex = 254;
+		PerkIconIndex = INDEX_NONE;
 
 		foreach Purchase_PerkUpgrade(index)
 		{
@@ -957,7 +957,7 @@ simulated function bool SyncTimerActive()
 defaultproperties
 {
 	PlayerLevel=0
-	PerkIconIndex=254
+	PerkIconIndex=INDEX_NONE
 	CurrentIconToDisplay=Texture2D'UI_PerkIcons_TEX.UI_Horzine_H_Logo'
 	SyncCompleted=True
 	RerollSyncCompleted=True
