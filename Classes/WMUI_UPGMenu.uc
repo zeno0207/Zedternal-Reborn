@@ -719,7 +719,7 @@ function UnlockRandomSkill(string PerkPathName, bool bShouldBeDeluxe)
 
 	for (i = 0; i < WMGRI.SkillUpgradesList.Length; ++i)
 	{
-		if (WMGRI.SkillUpgradesList[i].PerkPathName ~= PerkPathName && WMPRI.IsSkillUnlocked(i))
+		if (WMGRI.SkillUpgradesList[i].PerkPathName ~= PerkPathName && !WMPRI.IsSkillUnlocked(i))
 			AvailableIndex.AddItem(i);
 	}
 
